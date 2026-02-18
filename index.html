@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dilo con Movimiento | Escuela de Circo Urbano 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-pink: #ff006e;
+            --neon-blue: #00f5ff;
+            --neon-purple: #bc13fe;
+            --dark-bg: #0a0a0a;
+            --card-bg: #111111;
+            --text-light: #f0f0f0;
+            --text-gray: #888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animación de fondo */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 0, 110, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 245, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(188, 19, 254, 0.1) 0%, transparent 50%);
+            animation: pulse 10s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Header */
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(3rem, 10vw, 6rem);
+            letter-spacing: 0.1em;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 20px rgba(255, 0, 110, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(0, 245, 255, 0.5)); }
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--neon-purple);
+            font-weight: 300;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            max-width: 600px;
+            color: var(--text-gray);
+            font-style: italic;
+        }
+
+        .cta-button {
+            margin-top: 3rem;
+            padding: 1rem 3rem;
+            background: transparent;
+            border: 2px solid var(--neon-pink);
+            color: var(--neon-pink);
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.5rem;
+            letter-spacing: 0.2em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            background: var(--neon-pink);
+            color: var(--dark-bg);
+            box-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .canva-button {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, #00C4CC, #7B2CBF);
+            color: white;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-radius: 5px;
+        }
+
+        .canva-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 196, 204, 0.4);
+        }
+
+        /* Navegación */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--neon-blue);
+            transition: width 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--neon-blue);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Secciones */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        h2::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+            margin: 1rem auto;
+        }
+
+        h3 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--neon-blue);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.1);
+        }
+
+        /* Calendario */
+        .semester {
+            margin-bottom: 4rem;
+        }
+
+        .semester-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            color: var(--neon-blue);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .semester-title::before {
+            content: '▹';
+            color: var(--neon-pink);
+        }
+
+        .months-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .month-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .month-name {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.5rem;
+            color: var(--neon-purple);
+            margin-bottom: 0.5rem;
+        }
+
+        .dates {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .special-note {
+            color: var(--neon-pink);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* Horario */
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            padding: 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .schedule-table th {
+            background: rgba(255, 0, 110, 0.1);
+            color: var(--neon-pink);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .schedule-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .time {
+            color: var(--neon-blue);
+            font-weight: 700;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.2rem;
+        }
+
+        /* Talleres */
+        .workshops-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .workshop-card {
+            background: linear-gradient(135deg, rgba(255, 0, 110, 0.1), rgba(0, 245, 255, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .workshop-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .workshop-title {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .workshop-card:nth-child(1) .workshop-title { color: var(--neon-pink); }
+        .workshop-card:nth-child(2) .workshop-title { color: var(--neon-blue); }
+
+        .professor {
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .workshop-content {
+            list-style: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .workshop-content li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .workshop-content li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--neon-purple);
+        }
+
+        /* Team Section */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-card {
+            background: linear-gradient(135deg, rgba(188, 19, 254, 0.1), rgba(255, 0, 110, 0.1));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .team-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink));
+        }
+
+        .team-name {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .team-role {
+            color: var(--neon-pink);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .team-bio {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .team-cofounder {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.3rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--neon-blue);
+        }
+
+        /* Aliados Section */
+        .allies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .ally-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .ally-card:hover {
+            border-color: var(--neon-blue);
+            transform: translateY(-3px);
+        }
+
+        .ally-name {
+            font-weight: 700;
+            color: var(--neon-blue);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .ally-description {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .ally-link {
+            color: var(--neon-pink);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: color 0.3s;
+        }
+
+        .ally-link:hover {
+            color: var(--neon-blue);
+        }
+
+        /* Normas */
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .rule-item {
+            background: rgba(255, 0, 110, 0.05);
+            border-left: 3px solid var(--neon-pink);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .rule-title {
+            font-weight: 700;
+            color: var(--neon-pink);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rule-item.important {
+            background: rgba(0, 245, 255, 0.05);
+            border-left-color: var(--neon-blue);
+        }
+
+        .rule-item.important .rule-title {
+            color: var(--neon-blue);
+        }
+
+        .rule-item.community {
+            background: rgba(188, 19, 254, 0.05);
+            border-left-color: var(--neon-purple);
+        }
+
+        .rule-item.community .rule-title {
+            color: var(--neon-purple);
+        }
+
+        /* Precios */
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: var(--card-bg);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--neon-pink);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: 'RECOMENDADO';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--neon-pink);
+            color: var(--dark-bg);
+            padding: 0.3rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            border-radius: 20px;
+        }
+
+        .pricing-name {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-cash {
+            color: var(--neon-blue);
+        }
+
+        .price-transfer {
+            color: var(--neon-purple);
+            font-size: 1.5rem;
+        }
+
+        .price-note {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .promo-note {
+            background: rgba(0, 245, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 2rem;
+            text-align: center;
+            color: var(--neon-blue);
+            font-weight: 600;
+        }
+
+        /* Contact Section */
+        .contact-warning {
+            background: linear-gradient(135deg, rgba(255, 0, 110, 0.1), rgba(188, 19, 254, 0.1));
+            border: 1px solid var(--neon-pink);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .contact-warning strong {
+            color: var(--neon-pink);
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .contact-card:hover {
+            border-color: var(--neon-blue);
+            transform: translateY(-5px);
+        }
+
+        .contact-type {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.3rem;
+            color: var(--neon-blue);
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-detail {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--card-bg);
+            padding: 4rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .social-links a {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            transition: color 0.3s, transform 0.3s;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 30px;
+        }
+
+        .social-links a:hover {
+            color: var(--neon-pink);
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .instagram-icon {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            border-radius: 5px;
+            display: inline-block;
+            position: relative;
+        }
+
+        .instagram-icon::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            border: 2px solid white;
+            border-radius: 50%;
+        }
+
+        .instagram-icon::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .footer-text {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        .heartbeat {
+            color: var(--neon-pink);
+            animation: heartbeat 1.5s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                gap: 1rem;
+                padding: 0.5rem;
+            }
+            
+            nav a {
+                font-size: 0.8rem;
+            }
+            
+            section {
+                padding: 3rem 1rem;
+            }
+            
+            .schedule-table th,
+            .schedule-table td {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-pink);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-blue);
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#calendario">Calendario</a>
+        <a href="#horario">Horario</a>
+        <a href="#talleres">Talleres</a>
+        <a href="#equipo">Equipo</a>
+        <a href="#aliados">Aliados</a>
+        <a href="#normas">Normas</a>
+        <a href="#precios">Precios</a>
+        <a href="#contacto">Contacto</a>
+    </nav>
+
+    <header id="inicio">
+        <h1 class="logo">DILO CON MOVIMIENTO</h1>
+        <p class="subtitle">Escuela de Circo Urbano</p>
+        <p class="tagline">Segundo Año Académico 2026<br>Integrando Breaking y Lira con aprendizajes transversales para un desarrollo integral en movimiento</p>
+        
+        <a href="https://www.canva.com/design/DAHBtMeIFgA/rv_yoP6U7ShiKXSxe57hhw/edit?utm_content=DAHBtMeIFgA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" class="canva-button">
+            📋 Recursos y Documentación (Canva)
+        </a>
+        
+        <a href="#contacto" class="cta-button">Únete al Movimiento</a>
+    </header>
+
+    <section id="calendario">
+        <h2>📅 Calendario Académico 2026</h2>
+        
+        <div class="semester">
+            <h3 class="semester-title">Primer Semestre (Marzo - Julio)</h3>
+            <div class="months-grid">
+                <div class="month-card">
+                    <div class="month-name">Marzo</div>
+                    <div class="dates">8, 14, 21, 28</div>
+                    <div class="special-note">⚠️ 8 de marzo es DOMINGO (solo esta vez)</div>
+                </div>
+                <div class="month-card">
+                    <div class="month-name">Abril</div>
+                    <div class="dates">11, 18, 25</div>
+                </div>
+                <div class="month-card">
+                    <div class="month-name">Mayo</div>
+                    <div class="dates">9, 16, 23, 30</div>
+                </div>
+                <div class="month-card">
+                    <div class="month-name">Junio</div>
+                    <div class="dates">6, 13, 20, 27</div>
+                </div>
+                <div class="month-card">
+                    <div class="month-name">Julio</div>
+                    <div class="dates">4, 11, 18, 25</div>
+                    <div class="special-note">🎓 25 de julio: Última clase del semestre</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="semester">
+            <h3 class="semester-title">Segundo Semestre (Agosto - Diciembre)</h3>
+            <div class="months-grid">
+                <div class="month-card">
+                    <div class="month-name">Agosto</div>
+                    <div class="dates">8, 15, 22, 29</div>
+                </div>
+                <div class="month-card">
+                    <div class="month-name">Septiembre</div>
+                    <div class="dates">5, 12, 26</div>
+                </div>
+                <div class="month-card">
+                    <div class="month-name">Octubre</div>
+                    <div class="dates">3, 17, 24, 31</div>
+                </div>
+                <div class="month-card">
+                    <div class="month-name">Noviembre</div>
+                    <div class="dates">7, 14, 21, 28</div>
+                </div>
+                <div class="month-card">
+                    <div class="month-name">Diciembre</div>
+                    <div class="dates">5, 12, 19</div>
+                    <div class="special-note">🎓 19 de diciembre: Cierre del año</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <strong style="color: var(--neon-blue);">📍 Sede:</strong> Sede Comunitaria Los Sauces, Portales 1095, El Bosque<br>
+            <strong style="color: var(--neon-pink);">🎟️ Cupos:</strong> Solo 8 personas por taller<br>
+            <strong style="color: var(--neon-purple);">👥 Edad:</strong> Desde 12 años (excepciones solo para estudiantes antiguos)
+        </div>
+    </section>
+
+    <section id="horario">
+        <h2>⏰ Estructura de Clases</h2>
+        <p style="text-align: center; color: var(--text-gray); margin-bottom: 2rem;">Sábados de 11:00 a 14:00 hrs (excepto primera clase: domingo 8 marzo)</p>
+        
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>Horario</th>
+                    <th>Actividad</th>
+                    <th>Descripción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="time">11:00 - 11:30</td>
+                    <td>Bienvenida y Calentamiento</td>
+                    <td>Ambos cursos juntos. Prevención de lesiones y preparación física fundamentada científicamente</td>
+                </tr>
+                <tr>
+                    <td class="time">11:35 - 12:00</td>
+                    <td>Bloque Base</td>
+                    <td>Expresión corporal y/o preacrobáticos. Bases expresivas integradas con preparación física preventiva</td>
+                </tr>
+                <tr>
+                    <td class="time">12:00 - 13:20</td>
+                    <td>Clase Regular por Curso</td>
+                    <td>Breaking con Profe Dany / Lira con Profe Kari</td>
+                </tr>
+                <tr>
+                    <td class="time">13:20 - 13:30</td>
+                    <td>Feedback y Vuelta a la Calma</td>
+                    <td>Reflexión grupal y cierre de la sesión</td>
+                </tr>
+                <tr>
+                    <td class="time">13:30 - 14:00</td>
+                    <td>Entrenamiento Libre</td>
+                    <td>Práctica autónoma supervisada</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="talleres">
+        <h2>🎪 Nuestros Talleres</h2>
+        
+        <div class="workshops-grid">
+            <div class="workshop-card">
+                <h3 class="workshop-title">BREAKING</h3>
+                <p class="professor">Profe Dany @dany.el.trainer</p>
+                <ul class="workshop-content">
+                    <li>Powermoves</li>
+                    <li>Freezes</li>
+                    <li>Footwork</li>
+                    <li>Secuencias acrobáticas de piso</li>
+                    <li>Preparación física específica</li>
+                    <li>Activación según contenido de sesión</li>
+                </ul>
+            </div>
+
+            <div class="workshop-card">
+                <h3 class="workshop-title">LIRA (Aerial Hoop)</h3>
+                <p class="professor">Profe Kari @lakari.silvestre</p>
+                <ul class="workshop-content">
+                    <li>Exploración del aparato aéreo</li>
+                    <li>Progresiones seguras con fundamentos metodológicos</li>
+                    <li>Figuras y posturas</li>
+                    <li>Secuencias</li>
+                    <li>Entradas y salidas</li>
+                    <li>Activación específica para autodesarrollo</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 3rem;">
+            <h3 style="color: var(--neon-purple); margin-bottom: 1rem;">🤸 Aprendizajes Transversales (Bloque Base)</h3>
+            <p>Compartidos por ambos cursos para un desarrollo integral:</p>
+            <ul style="margin-top: 1rem; margin-left: 1.5rem; line-height: 2;">
+                <li>Preacrobáticos y acrobacias de piso básicas</li>
+                <li>Mano a mano: secuencias grupales desde breaking y circo</li>
+                <li>Preparación física básica y específica</li>
+                <li>Expresión corporal: manejo del pánico escénico, miradas, puesta en escena</li>
+                <li>Actitud y disfrute: lo más importante de todo el proceso</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="equipo">
+        <h2>👥 Quienes Somos</h2>
+        <p style="text-align: center; color: var(--text-gray); margin-bottom: 2rem;">Facilitadores y cofundadores de la Escuela de Circo Urbano</p>
+        
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-name">Karina Acuña</div>
+                <div class="team-role">Profesora de Lira</div>
+                <div class="team-bio">
+                    Terapeuta Ocupacional, atleta y artista de circo urbano. Especialista en lira aérea con enfoque en progresiones seguras y metodología fundamentada. Practica y eterna aprendiz de mano a mano y figuras grupales.
+                </div>
+                <span class="team-cofounder">Cofundadora</span>
+            </div>
+
+            <div class="team-card">
+                <div class="team-name">Daniel Henríquez</div>
+                <div class="team-role">Profesor de Breaking</div>
+                <div class="team-bio">
+                    Preparador Físico, atleta y artista de circo urbano. Especialista en breaking, firestaff y acrobacias. Practica y eterno aprendiz de mano a mano y figuras grupales.
+                </div>
+                <span class="team-cofounder">Cofundador</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="aliados">
+        <h2>🤝 Otros Espacios y Aliados</h2>
+        <p style="text-align: center; color: var(--text-gray); margin-bottom: 2rem;">Conoce otros talleres, clases y servicios complementarios</p>
+        
+        <div class="allies-grid">
+            <div class="ally-card">
+                <div class="ally-name">🤸 Entrenamiento Acrobático</div>
+                <div class="ally-description">Desde lo más básico y fundamental. Contamos con colchonetones, tatamis y airtrack. Días jueves.</div>
+                <a href="https://chat.whatsapp.com/DX6IY4INawE54PQiyqLeS4" target="_blank" class="ally-link">Unirse al grupo WhatsApp →</a>
+            </div>
+
+            <div class="ally-card">
+                <div class="ally-name">💪 Entrenamiento Personalizado</div>
+                <div class="ally-description">Clases personalizadas y grupales en modalidad sincrónica y asincrónica. Adaptadas a tus objetivos.</div>
+                <a href="https://wa.me/c/56935541341" target="_blank" class="ally-link">Ver catálogo WhatsApp →</a>
+            </div>
+
+            <div class="ally-card">
+                <div class="ally-name">💃 Dancehall (Profe Liss)</div>
+                <div class="ally-description">Profesora comprometida con su formación continua. Toma clases de circo urbano desde hace un año para enriquecer su práctica. Clases en San Bernardo, espacio exclusivo para mujeres.</div>
+                <a href="https://www.instagram.com/equilibriodesiquilibrado/" target="_blank" class="ally-link">@equilibriodesiquilibrado →</a>
+            </div>
+
+            <div class="ally-card">
+                <div class="ally-name">🧠 Psicología Integral (PS Sthefanie)</div>
+                <div class="ally-description">Parte de nuestro equipo organizativo (difusión, eventos, ideas). Psicóloga comprometida con amplia experiencia en colegios. Constantemente en formación continua para brindar un mejor servicio.</div>
+                <a href="https://www.instagram.com/psicosthefi/" target="_blank" class="ally-link">@psicosthefi →</a>
+            </div>
+
+            <div class="ally-card">
+                <div class="ally-name">🏋️ Calistenia Plaza San Lucas</div>
+                <div class="ally-description">Entrenamiento al aire libre en Lo Espejo. Activa tu cuerpo en comunidad.</div>
+                <a href="https://www.instagram.com/activa.tuplaza.libresanlucas/" target="_blank" class="ally-link">@activa.tuplaza.libresanlucas →</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="normas">
+        <h2>📜 Normas del Espacio</h2>
+        
+        <div class="rules-grid">
+            <div class="rule-item important">
+                <div class="rule-title">⚡ Puntualidad Obligatoria</div>
+                <p>Llegar a la hora es fundamental. El calentamiento está diseñado con bases físicas científicas para reducir riesgo de lesiones y optimizar tu desarrollo. Perderlo = riesgo + distracción para el grupo.</p>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-title">👥 Responsabilidad con Menores</div>
+                <p>Si asistes con menores, debes estar mayormente atento/a. Son espacios acrobáticos de riesgo compartidos. No interrumpas la clase cruzándote con ellos; si es necesario, retíralos con el cuidado y amor que la infancia merece.</p>
+            </div>
+
+            <div class="rule-item community">
+                <div class="rule-title">🤝 Espacio Seguro</div>
+                <p>No es un espacio misógino, racista ni violento en ningún sentido. No somos punitivos, pero preferimos evitar conductas en las que cada persona podría estar trabajando individualmente.</p>
+            </div>
+
+            <div class="rule-item">
+                <div class="rule-title">🧹 Cuidado de Materiales</div>
+                <p>Cuida los materiales, el espacio y su limpieza. Si puedes apoyar en la limpieza y orden al finalizar, ¡se agradece mucho! Somos una comunidad.</p>
+            </div>
+
+            <div class="rule-item important">
+                <div class="rule-title">🎂 Edad Mínima</div>
+                <p>Desde los 12 años. Excepciones únicamente para estudiantes antiguos que ya forman parte de la comunidad.</p>
+            </div>
+
+            <div class="rule-item community">
+                <div class="rule-title">💜 Comunidad</div>
+                <p>Este es un espacio de apoyo mutuo. El mayor cuidado viene de quien acompaña, pero entre todes nos cuidamos.</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem; border-color: var(--neon-pink);">
+            <h3 style="color: var(--neon-pink); margin-bottom: 1rem;">🎒 Infraestructura Disponible</h3>
+            <p style="color: var(--text-gray);">
+                Contamos con tatamis, colchonetas de diversas medidas, airtracks, liras con mosquetones giratorios, eslingas, tela aérea, anillas de gimnasia, bloques de mat y equipo de sonido. 
+                <br><br>
+                <em>El espacio es compartido entre ambos talleres, trabajando en paralelo con división del área.</em>
+            </p>
+        </div>
+    </section>
+
+    <section id="precios">
+        <h2>💰 Aranceles 2026</h2>
+        <p style="text-align: center; color: var(--text-gray); margin-bottom: 1rem;">Forma de pago: Antes de comenzar el mes/semestre, o durante la primera clase. Para clase a clase: previo a iniciar o antes de finalizar. <strong style="color: var(--neon-pink);">No se aceptan pagos pendientes.</strong></p>
+        
+        <div class="pricing-cards">
+            <div class="pricing-card featured">
+                <div class="pricing-name">Semestral (5 meses)</div>
+                <div class="price price-cash">$50.000</div>
+                <div class="price-transfer">$60.000 transferencia</div>
+                <div class="price-note">Mejor valor para compromiso de medio año</div>
+            </div>
+
+            <div class="pricing-card">
+                <div class="pricing-name">Mensual</div>
+                <div class="price price-cash">$12.000</div>
+                <div class="price-transfer">$15.000 transferencia</div>
+                <div class="price-note">Flexibilidad mes a mes</div>
+            </div>
+
+            <div class="pricing-card">
+                <div class="pricing-name">Clase Suelta</div>
+                <div class="price price-cash">$4.000</div>
+                <div class="price-transfer">$6.000 transferencia</div>
+                <div class="price-note">Valor general - para probar o visitantes</div>
+            </div>
+        </div>
+
+        <div class="promo-note">
+            🎉 <strong>Promoción especial:</strong> Tu primer pago mensual por transferencia tiene el valor de efectivo ($12.000) ¡Aprovecha!
+        </div>
+    </section>
+
+    <section id="contacto">
+        <h2>📲 Contacto</h2>
+        
+        <div class="contact-warning">
+            <strong>⚠️ Importante: Concretemos</strong>
+            <p>Si nos contactas, es para concretar tu participación. Valoramos tu interés y el tiempo de todes. Muchas personas nos escriben pero luego no confirman asistencia ni reservan cupo. Si te interesa, comprometámonos. ¡Te esperamos!</p>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-type">Instagram</div>
+                <div class="contact-info">@dilo.con_movimiento</div>
+                <div class="contact-detail">Consultas y reservas vía DM</div>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-type">Karina (Lira)</div>
+                <div class="contact-info">+56 9 8705 3650</div>
+                <div class="contact-detail">WhatsApp directo</div>
+            </div>
+
+            <div class="contact-card">
+                <div class="contact-type">Daniel (Breaking)</div>
+                <div class="contact-info">+56 9 3554 1341</div>
+                <div class="contact-detail">WhatsApp directo</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <h2 style="margin-bottom: 2rem;">Únete al Movimiento</h2>
+        
+        <div class="social-links">
+            <a href="https://instagram.com/dilo.con_movimiento" target="_blank">
+                <span class="instagram-icon"></span>
+                @dilo.con_movimiento
+            </a>
+            <a href="https://www.canva.com/design/DAHBtMeIFgA/rv_yoP6U7ShiKXSxe57hhw/edit?utm_content=DAHBtMeIFgA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank">
+                📋 Recursos (Canva)
+            </a>
+        </div>
+
+        <p class="footer-text">
+            Hecho con <span class="heartbeat">❤️</span> y movimiento<br>
+            Escuela de Circo Urbano Dilo con Movimiento © 2026
+        </p>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animación al scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .month-card, .workshop-card, .rule-item, .pricing-card, .team-card, .ally-card, .contact-card').forEach(el => {
+            el.style.opacity = "0";
+            el.style.transform = "translateY(20px)";
+            el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
