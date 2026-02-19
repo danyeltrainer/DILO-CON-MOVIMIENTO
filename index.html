@@ -298,6 +298,22 @@
             font-style: italic;
         }
 
+        .inscription-note {
+            background: linear-gradient(135deg, rgba(255, 0, 110, 0.1), rgba(0, 245, 255, 0.1));
+            border: 2px solid var(--neon-pink);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .inscription-note strong {
+            color: var(--neon-pink);
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
         /* Horario */
         .schedule-table {
             width: 100%;
@@ -461,7 +477,7 @@
             color: var(--neon-blue);
         }
 
-        /* Aliados Section */
+        /* Aliadxs Section */
         .allies-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -683,6 +699,39 @@
             font-size: 0.9rem;
         }
 
+        .email-section {
+            background: linear-gradient(135deg, rgba(188, 19, 254, 0.1), rgba(255, 0, 110, 0.1));
+            border: 1px solid var(--neon-purple);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .email-section strong {
+            color: var(--neon-purple);
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .location-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .location-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 0, 110, 0.4);
+        }
+
         /* Footer */
         footer {
             background: var(--card-bg);
@@ -810,7 +859,6 @@
             background: var(--neon-blue);
         }
     </style>
-<base target="_blank">
 </head>
 <body>
     <div class="bg-animation"></div>
@@ -821,7 +869,7 @@
         <a href="#horario">Horario</a>
         <a href="#talleres">Talleres</a>
         <a href="#equipo">Equipo</a>
-        <a href="#aliados">Aliados</a>
+        <a href="#aliadxs">Aliadxs</a>
         <a href="#normas">Normas</a>
         <a href="#precios">Precios</a>
         <a href="#contacto">Contacto</a>
@@ -897,10 +945,18 @@
             </div>
         </div>
 
+        <div class="inscription-note">
+            <strong>📝 Inscripciones Segundo Semestre</strong>
+            <p>Del 16 de julio al 5 de agosto<br>Reserva tu cupo a tiempo, son solo 8 cupos por taller</p>
+        </div>
+
         <div class="card" style="margin-top: 2rem;">
             <strong style="color: var(--neon-blue);">📍 Sede:</strong> Sede Comunitaria Los Sauces, Portales 1095, El Bosque<br>
             <strong style="color: var(--neon-pink);">🎟️ Cupos:</strong> Solo 8 personas por taller<br>
-            <strong style="color: var(--neon-purple);">👥 Edad:</strong> Desde 12 años (excepciones solo para estudiantes antiguos)
+            <strong style="color: var(--neon-purple);">👥 Edad:</strong> Desde 12 años (excepciones solo para estudiantes antiguos)<br><br>
+            <a href="https://www.canva.com/design/DAHBzHmOp8A/fsZLCp5c0FH2inswkbuHQw/edit?utm_content=DAHBzHmOp8A&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" class="location-link">
+                📍 Ver ubicación de la sede
+            </a>
         </div>
     </section>
 
@@ -920,7 +976,7 @@
                 <tr>
                     <td class="time">11:00 - 11:30</td>
                     <td>Bienvenida y Calentamiento</td>
-                    <td>Ambos cursos juntos. Prevención de lesiones y preparación física fundamentada científicamente</td>
+                    <td>Ambos cursos juntes. Prevención de lesiones y preparación física fundamentada científicamente</td>
                 </tr>
                 <tr>
                     <td class="time">11:35 - 12:00</td>
@@ -999,7 +1055,7 @@
                 <div class="team-name">Karina Acuña</div>
                 <div class="team-role">Profesora de Lira</div>
                 <div class="team-bio">
-                    Terapeuta Ocupacional, atleta y artista de circo urbano. Especialista en lira aérea con enfoque en progresiones seguras y metodología fundamentada. Practica y eterna aprendiz de mano a mano y figuras grupales.
+                    Terapeuta Ocupacional, atleta y artista de circo urbano. Especialista en lira aérea con enfoque en progresiones seguras y metodología fundamentada. Practicante y eterna aprendiz de mano a mano y figuras grupales.
                 </div>
                 <span class="team-cofounder">Cofundadora</span>
             </div>
@@ -1008,28 +1064,34 @@
                 <div class="team-name">Daniel Henríquez</div>
                 <div class="team-role">Profesor de Breaking</div>
                 <div class="team-bio">
-                    Preparador Físico, atleta y artista de circo urbano. Especialista en breaking, firestaff y acrobacias. Practica y eterno aprendiz de mano a mano y figuras grupales.
+                    Preparador Físico, atleta y artista de circo urbano. Especialista en breaking, firestaff y acrobacias. Practicante y eterno aprendiz de mano a mano y figuras grupales.
                 </div>
                 <span class="team-cofounder">Cofundador</span>
             </div>
         </div>
     </section>
 
-    <section id="aliados">
-        <h2>🤝 Otros Espacios y Aliados</h2>
+    <section id="aliadxs">
+        <h2>🤝 Otros Espacios y Aliadxs</h2>
         <p style="text-align: center; color: var(--text-gray); margin-bottom: 2rem;">Conoce otros talleres, clases y servicios complementarios</p>
         
         <div class="allies-grid">
             <div class="ally-card">
                 <div class="ally-name">🤸 Entrenamiento Acrobático</div>
-                <div class="ally-description">Desde lo más básico y fundamental. Contamos con colchonetones, tatamis y airtrack. Días jueves.</div>
+                <div class="ally-description">Desde lo más básico y fundamental. Contamos con colchonetones, tatamis y airtrack. Días jueves.<br><br><strong>Ejecuta: Profe Dany</strong></div>
                 <a href="https://chat.whatsapp.com/DX6IY4INawE54PQiyqLeS4" target="_blank" class="ally-link">Unirse al grupo WhatsApp →</a>
             </div>
 
             <div class="ally-card">
                 <div class="ally-name">💪 Entrenamiento Personalizado</div>
-                <div class="ally-description">Clases personalizadas y grupales en modalidad sincrónica y asincrónica. Adaptadas a tus objetivos.</div>
+                <div class="ally-description">Clases personalizadas y grupales en modalidad sincrónica y asincrónica. Adaptadas a tus objetivos.<br><br><strong>Ejecuta: Profe Dany</strong></div>
                 <a href="https://wa.me/c/56935541341" target="_blank" class="ally-link">Ver catálogo WhatsApp →</a>
+            </div>
+
+            <div class="ally-card">
+                <div class="ally-name">🏋️ Calistenia Plaza San Lucas</div>
+                <div class="ally-description">Entrenamiento al aire libre en Lo Espejo. Activa tu cuerpo en comunidad.<br><br><strong>Ejecuta: Profe Dany</strong></div>
+                <a href="https://www.instagram.com/activa.tuplaza.libresanlucas/" target="_blank" class="ally-link">@activa.tuplaza.libresanlucas →</a>
             </div>
 
             <div class="ally-card">
@@ -1042,12 +1104,6 @@
                 <div class="ally-name">🧠 Psicología Integral (PS Sthefanie)</div>
                 <div class="ally-description">Parte de nuestro equipo organizativo (difusión, eventos, ideas). Psicóloga comprometida con amplia experiencia en colegios. Constantemente en formación continua para brindar un mejor servicio.</div>
                 <a href="https://www.instagram.com/psicosthefi/" target="_blank" class="ally-link">@psicosthefi →</a>
-            </div>
-
-            <div class="ally-card">
-                <div class="ally-name">🏋️ Calistenia Plaza San Lucas</div>
-                <div class="ally-description">Entrenamiento al aire libre en Lo Espejo. Activa tu cuerpo en comunidad.</div>
-                <a href="https://www.instagram.com/activa.tuplaza.libresanlucas/" target="_blank" class="ally-link">@activa.tuplaza.libresanlucas →</a>
             </div>
         </div>
     </section>
@@ -1063,12 +1119,12 @@
 
             <div class="rule-item">
                 <div class="rule-title">👥 Responsabilidad con Menores</div>
-                <p>Si asistes con menores, debes estar mayormente atento/a. Son espacios acrobáticos de riesgo compartidos. No interrumpas la clase cruzándote con ellos; si es necesario, retíralos con el cuidado y amor que la infancia merece.</p>
+                <p>Si asistes con menores, debes estar mayormente atente. Son espacios acrobáticos de riesgo compartidos. No interrumpas la clase cruzándote con elles; si es necesario, retírales con el cuidado y amor que la infancia merece.</p>
             </div>
 
             <div class="rule-item community">
                 <div class="rule-title">🤝 Espacio Seguro</div>
-                <p>No es un espacio misógino, racista ni violento en ningún sentido. No somos punitivos, pero preferimos evitar conductas en las que cada persona podría estar trabajando individualmente.</p>
+                <p>No es un espacio misógino, racista ni violento en ningún sentido. No somos punitivxs, pero preferimos evitar conductas en las que cada persona podría estar trabajando individualmente.</p>
             </div>
 
             <div class="rule-item">
@@ -1156,6 +1212,12 @@
                 <div class="contact-detail">WhatsApp directo</div>
             </div>
         </div>
+
+        <div class="email-section">
+            <strong>📧 Correo electrónico</strong>
+            <p style="font-size: 1.2rem; color: var(--text-light); margin: 0.5rem 0;">diloconmovimiento@gmail.com</p>
+            <p style="color: var(--text-gray); font-size: 0.9rem;">Para clases fuera de Santiago, presentaciones, muestras y talleres en otros espacios</p>
+        </div>
     </section>
 
     <footer>
@@ -1165,6 +1227,9 @@
             <a href="https://instagram.com/dilo.con_movimiento" target="_blank">
                 <span class="instagram-icon"></span>
                 @dilo.con_movimiento
+            </a>
+            <a href="mailto:diloconmovimiento@gmail.com">
+                ✉️ diloconmovimiento@gmail.com
             </a>
             <a href="https://www.canva.com/design/DAHBtMeIFgA/rv_yoP6U7ShiKXSxe57hhw/edit?utm_content=DAHBtMeIFgA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank">
                 📋 Recursos (Canva)
