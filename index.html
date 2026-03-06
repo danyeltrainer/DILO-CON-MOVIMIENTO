@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dilo con Movimiento | Escuela de Circo Urbano 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
@@ -22,12 +22,18 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background: var(--dark-bg);
             color: var(--text-light);
             line-height: 1.6;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         .bg-animation {
@@ -49,85 +55,36 @@
             50% { opacity: 1; }
         }
 
-        header {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 2rem;
-            position: relative;
-        }
-
-        .logo {
-            font-family: 'Bebas Neue', cursive;
-            font-size: clamp(3rem, 10vw, 6rem);
-            letter-spacing: 0.1em;
-            background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            animation: glow 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 20px rgba(255, 0, 110, 0.5)); }
-            to { filter: drop-shadow(0 0 30px rgba(0, 245, 255, 0.5)); }
-        }
-
-        .subtitle {
-            font-size: 1.5rem;
-            color: var(--neon-purple);
-            font-weight: 300;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            margin-bottom: 2rem;
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            max-width: 600px;
-            color: var(--text-gray);
-            font-style: italic;
-        }
-
-        .cta-button {
-            margin-top: 3rem;
-            padding: 1rem 3rem;
-            background: transparent;
-            border: 2px solid var(--neon-pink);
-            color: var(--neon-pink);
-            font-family: 'Bebas Neue', cursive;
-            font-size: 1.5rem;
-            letter-spacing: 0.2em;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .cta-button:hover {
-            background: var(--neon-pink);
-            color: var(--dark-bg);
-            box-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
-            transform: translateY(-2px);
-        }
-
+        /* NAVEGACIÓN MEJORADA - MÓVIL PRIMERO */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(10, 10, 10, 0.9);
+            background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(10px);
             z-index: 1000;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            flex-wrap: wrap;
+            padding: 0.75rem 1rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.98);
+            flex-direction: column;
+            padding: 1rem;
+            gap: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-links.active {
+            display: flex;
         }
 
         nav a {
@@ -138,66 +95,156 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
             transition: color 0.3s;
-            position: relative;
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--neon-blue);
-            transition: width 0.3s;
+            padding: 0.75rem 1rem;
+            border-radius: 5px;
+            text-align: center;
         }
 
         nav a:hover {
             color: var(--neon-blue);
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        nav a:hover::after {
-            width: 100%;
+        .menu-toggle {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            padding: 0.5rem;
+            background: none;
+            border: none;
+            z-index: 1001;
         }
 
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--neon-pink);
+            transition: all 0.3s;
+            border-radius: 2px;
+        }
+
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        /* HEADER RESPONSIVO */
+        header {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 6rem 1.5rem 2rem;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(2.5rem, 12vw, 6rem);
+            letter-spacing: 0.05em;
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            animation: glow 3s ease-in-out infinite alternate;
+            line-height: 1.1;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(255, 0, 110, 0.5)); }
+            to { filter: drop-shadow(0 0 20px rgba(0, 245, 255, 0.5)); }
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            color: var(--neon-purple);
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .tagline {
+            font-size: clamp(0.9rem, 3vw, 1.2rem);
+            max-width: 600px;
+            color: var(--text-gray);
+            font-style: italic;
+            padding: 0 1rem;
+        }
+
+        .cta-button {
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: transparent;
+            border: 2px solid var(--neon-pink);
+            color: var(--neon-pink);
+            font-family: 'Bebas Neue', cursive;
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 5px;
+        }
+
+        .cta-button:hover {
+            background: var(--neon-pink);
+            color: var(--dark-bg);
+            box-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* SECCIONES RESPONSIVAS */
         section {
-            padding: 5rem 2rem;
+            padding: 4rem 1rem;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         h2 {
             font-family: 'Bebas Neue', cursive;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            margin-bottom: 3rem;
+            font-size: clamp(1.8rem, 6vw, 3.5rem);
+            margin-bottom: 2rem;
             text-align: center;
             position: relative;
-            display: inline-block;
             width: 100%;
         }
 
         h2::after {
             content: '';
             display: block;
-            width: 100px;
+            width: 60px;
             height: 3px;
             background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
-            margin: 1rem auto;
+            margin: 0.75rem auto 0;
         }
 
         h3 {
             font-family: 'Bebas Neue', cursive;
-            font-size: 1.8rem;
+            font-size: clamp(1.4rem, 5vw, 1.8rem);
             margin-bottom: 1rem;
             color: var(--neon-blue);
         }
 
+        /* CARDS RESPONSIVAS */
         .card {
             background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            padding: 2rem;
-            margin-bottom: 2rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             transition: transform 0.3s, box-shadow 0.3s;
             position: relative;
             overflow: hidden;
@@ -214,22 +261,24 @@
         }
 
         .card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: 0 10px 30px rgba(0, 245, 255, 0.1);
         }
 
+        /* SEMESTRES Y MESES */
         .semester {
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
 
         .semester-title {
             font-family: 'Bebas Neue', cursive;
-            font-size: 2rem;
+            font-size: clamp(1.3rem, 5vw, 2rem);
             color: var(--neon-blue);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .semester-title::before {
@@ -239,64 +288,53 @@
 
         .months-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: 1fr;
+            gap: 1rem;
         }
 
         .month-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-            padding: 1.5rem;
+            padding: 1.25rem;
         }
 
         .month-name {
             font-family: 'Bebas Neue', cursive;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: var(--neon-purple);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
 
         .dates {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: var(--text-light);
             font-weight: 600;
         }
 
         .special-note {
             color: var(--neon-pink);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             margin-top: 0.5rem;
             font-style: italic;
         }
 
-        .inscription-note {
-            background: linear-gradient(135deg, rgba(255, 0, 110, 0.1), rgba(0, 245, 255, 0.1));
-            border: 2px solid var(--neon-pink);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        .inscription-note strong {
-            color: var(--neon-pink);
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
-        }
-
+        /* TABLA RESPONSIVA */
         .schedule-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
         }
 
         .schedule-table th,
         .schedule-table td {
-            padding: 1.5rem;
+            padding: 1rem;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
         }
 
         .schedule-table th {
@@ -304,80 +342,67 @@
             color: var(--neon-pink);
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .schedule-table tr:hover {
-            background: rgba(255, 255, 255, 0.02);
+            letter-spacing: 0.05em;
         }
 
         .time {
             color: var(--neon-blue);
             font-weight: 700;
             font-family: 'Bebas Neue', cursive;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
+            white-space: nowrap;
         }
 
-        .workshops-grid {
+        /* GRIDS RESPONSIVOS */
+        .workshops-grid,
+        .services-grid,
+        .team-grid,
+        .rules-grid,
+        .pricing-cards,
+        .contact-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .workshop-card,
+        .service-card,
+        .team-card,
+        .pricing-card,
+        .contact-card {
+            width: 100%;
         }
 
         .workshop-card {
             background: linear-gradient(135deg, rgba(255, 0, 110, 0.1), rgba(0, 245, 255, 0.1));
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            padding: 2rem;
+            padding: 1.5rem;
             position: relative;
             overflow: hidden;
         }
 
-        .workshop-card::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
         .workshop-title {
             font-family: 'Bebas Neue', cursive;
-            font-size: 2rem;
+            font-size: 1.8rem;
             margin-bottom: 0.5rem;
-            position: relative;
-            z-index: 1;
         }
-
-        .workshop-card:nth-child(1) .workshop-title { color: var(--neon-pink); }
-        .workshop-card:nth-child(2) .workshop-title { color: var(--neon-blue); }
 
         .professor {
             color: var(--text-gray);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             font-size: 0.9rem;
-            position: relative;
-            z-index: 1;
         }
 
         .workshop-content {
             list-style: none;
-            position: relative;
-            z-index: 1;
         }
 
         .workshop-content li {
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
+            padding: 0.4rem 0;
+            padding-left: 1.25rem;
             position: relative;
+            font-size: 0.95rem;
         }
 
         .workshop-content li::before {
@@ -387,146 +412,87 @@
             color: var(--neon-purple);
         }
 
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
         .service-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            padding: 1.5rem;
+            padding: 1.25rem;
             transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .service-card:hover {
-            border-color: var(--neon-blue);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 20px rgba(0, 245, 255, 0.2);
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--neon-pink), var(--neon-purple));
         }
 
         .service-name {
             font-weight: 700;
             color: var(--neon-blue);
             margin-bottom: 0.5rem;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-family: 'Bebas Neue', cursive;
             letter-spacing: 0.05em;
         }
 
         .service-executor {
             color: var(--neon-pink);
-            font-size: 0.9rem;
-            margin-bottom: 0.8rem;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
             font-weight: 600;
         }
 
         .service-description {
             color: var(--text-gray);
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-            line-height: 1.6;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
         }
 
         .service-link {
             color: var(--neon-purple);
             text-decoration: none;
             font-size: 0.9rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-            transition: color 0.3s;
             font-weight: 600;
-        }
-
-        .service-link:hover {
-            color: var(--neon-blue);
-        }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            word-break: break-all;
         }
 
         .team-card {
             background: linear-gradient(135deg, rgba(188, 19, 254, 0.1), rgba(255, 0, 110, 0.1));
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            padding: 2rem;
+            padding: 1.5rem;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .team-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink));
         }
 
         .team-name {
             font-family: 'Bebas Neue', cursive;
-            font-size: 2rem;
-            color: var(--text-light);
-            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            margin-bottom: 0.25rem;
         }
 
         .team-role {
             color: var(--neon-pink);
             font-weight: 600;
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
         }
 
         .team-bio {
             color: var(--text-gray);
-            font-size: 0.95rem;
-            line-height: 1.8;
+            font-size: 0.9rem;
+            line-height: 1.7;
         }
 
         .team-cofounder {
             display: inline-block;
-            margin-top: 1rem;
-            padding: 0.3rem 1rem;
+            margin-top: 0.75rem;
+            padding: 0.25rem 0.75rem;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 20px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--neon-blue);
-        }
-
-        .rules-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
         }
 
         .rule-item {
             background: rgba(255, 0, 110, 0.05);
             border-left: 3px solid var(--neon-pink);
-            padding: 1.5rem;
+            padding: 1.25rem;
             border-radius: 0 8px 8px 0;
         }
 
@@ -537,73 +503,33 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-        }
-
-        .rule-item.important {
-            background: rgba(0, 245, 255, 0.05);
-            border-left-color: var(--neon-blue);
-        }
-
-        .rule-item.important .rule-title {
-            color: var(--neon-blue);
-        }
-
-        .rule-item.community {
-            background: rgba(188, 19, 254, 0.05);
-            border-left-color: var(--neon-purple);
-        }
-
-        .rule-item.community .rule-title {
-            color: var(--neon-purple);
-        }
-
-        .pricing-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            font-size: 1rem;
         }
 
         .pricing-card {
             background: var(--card-bg);
             border: 2px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px;
-            padding: 2rem;
+            padding: 1.5rem;
             text-align: center;
-            position: relative;
             transition: all 0.3s;
         }
 
         .pricing-card.featured {
             border-color: var(--neon-pink);
-            transform: scale(1.05);
-        }
-
-        .pricing-card.featured::before {
-            content: 'RECOMENDADO';
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--neon-pink);
-            color: var(--dark-bg);
-            padding: 0.3rem 1rem;
-            font-size: 0.8rem;
-            font-weight: 700;
-            border-radius: 20px;
+            order: -1;
         }
 
         .pricing-name {
             font-family: 'Bebas Neue', cursive;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--text-light);
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
         }
 
         .price {
-            font-size: 2.5rem;
+            font-size: 2rem;
             font-weight: 800;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
 
         .price-cash {
@@ -612,133 +538,255 @@
 
         .price-transfer {
             color: var(--neon-purple);
-            font-size: 1.5rem;
+            font-size: 1.25rem;
         }
 
         .price-note {
             color: var(--text-gray);
-            font-size: 0.9rem;
-            margin-top: 1rem;
-        }
-
-        .promo-note {
-            background: rgba(0, 245, 255, 0.1);
-            border: 1px solid var(--neon-blue);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 2rem;
-            text-align: center;
-            color: var(--neon-blue);
-            font-weight: 600;
-        }
-
-        .contact-warning {
-            background: linear-gradient(135deg, rgba(255, 0, 110, 0.1), rgba(188, 19, 254, 0.1));
-            border: 1px solid var(--neon-pink);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .contact-warning strong {
-            color: var(--neon-pink);
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
         }
 
         .contact-card {
             background: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            padding: 2rem;
+            padding: 1.5rem;
             text-align: center;
-            transition: all 0.3s;
-        }
-
-        .contact-card:hover {
-            border-color: var(--neon-blue);
-            transform: translateY(-5px);
         }
 
         .contact-type {
             font-family: 'Bebas Neue', cursive;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--neon-blue);
-            margin-bottom: 1rem;
-        }
-
-        .contact-info {
-            font-size: 1.1rem;
-            color: var(--text-light);
             margin-bottom: 0.5rem;
         }
 
-        .contact-detail {
+        .contact-info {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 0.25rem;
+            word-break: break-all;
+        }
+
+        /* CARRUSEL RESPONSIVO */
+        .carousel {
+            position: relative;
+            width: 100%;
+            margin: 1.5rem auto;
+            overflow: hidden;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 0, 110, 0.3);
+        }
+
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            padding: 2rem 1.5rem;
+            background: linear-gradient(135deg, #1a0033, #33001a);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
+        }
+
+        .carousel-slide h3 {
+            font-size: clamp(1.8rem, 8vw, 2.5rem);
+            margin-bottom: 0.75rem;
+            color: var(--neon-pink);
+        }
+
+        .carousel-slide p {
+            font-size: 1rem;
             color: var(--text-gray);
-            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            max-width: 100%;
+        }
+
+        .carousel-button {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-decoration: none;
+            border-radius: 50px;
+        }
+
+        .carousel-prev, .carousel-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: 2px solid var(--neon-pink);
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .carousel-prev { left: 10px; }
+        .carousel-next { right: 10px; }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--text-gray);
+            cursor: pointer;
+            border: none;
+        }
+
+        .carousel-dot.active {
+            background: var(--neon-pink);
+            transform: scale(1.2);
+        }
+
+        /* BANNERS Y NOTAS */
+        .promo-banner {
+            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem auto;
+            text-align: center;
+            border: 2px solid var(--neon-blue);
+        }
+
+        .promo-banner h3 {
+            font-size: clamp(1.5rem, 6vw, 2rem);
+            color: white;
+            margin-bottom: 0.75rem;
+        }
+
+        .promo-banner p {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 1rem;
+        }
+
+        .promo-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--dark-bg);
+            color: var(--neon-blue);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: 2px solid var(--neon-blue);
+        }
+
+        .inscription-note,
+        .contact-warning,
+        .email-section,
+        .materiales-protegido {
+            padding: 1.25rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .inscription-note {
+            background: linear-gradient(135deg, rgba(255, 0, 110, 0.1), rgba(0, 245, 255, 0.1));
+            border: 2px solid var(--neon-pink);
+        }
+
+        .contact-warning {
+            background: linear-gradient(135deg, rgba(255, 0, 110, 0.1), rgba(188, 19, 254, 0.1));
+            border: 1px solid var(--neon-pink);
         }
 
         .email-section {
             background: linear-gradient(135deg, rgba(188, 19, 254, 0.1), rgba(255, 0, 110, 0.1));
             border: 1px solid var(--neon-purple);
-            border-radius: 10px;
-            padding: 2rem;
-            margin-top: 2rem;
-            text-align: center;
         }
 
-        .email-section strong {
-            color: var(--neon-purple);
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
+        .materiales-protegido {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--neon-purple);
+        }
+
+        .materiales-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-width: 100%;
+            margin: 1rem auto;
+        }
+
+        .materiales-form input {
+            padding: 0.75rem;
+            border: 1px solid var(--neon-blue);
+            background: rgba(255,255,255,0.1);
+            color: var(--text-light);
+            border-radius: 5px;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .materiales-form button {
+            padding: 0.75rem;
+            background: var(--neon-pink);
+            border: none;
+            color: var(--dark-bg);
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
         }
 
         .location-link {
             display: inline-block;
             margin-top: 1rem;
-            padding: 0.8rem 1.5rem;
+            padding: 0.75rem 1.25rem;
             background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
             color: white;
             text-decoration: none;
             border-radius: 5px;
             font-weight: 600;
-            transition: transform 0.3s, box-shadow 0.3s;
+            font-size: 0.9rem;
         }
 
-        .location-link:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 0, 110, 0.4);
-        }
-
+        /* FOOTER */
         footer {
             background: var(--card-bg);
-            padding: 4rem 2rem;
+            padding: 3rem 1rem;
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .social-links {
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
         }
 
         .social-links a {
             color: var(--text-light);
-            font-size: 1.1rem;
-            transition: color 0.3s, transform 0.3s;
+            font-size: 1rem;
             text-decoration: none;
             display: flex;
             align-items: center;
@@ -746,12 +794,7 @@
             padding: 0.5rem 1rem;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 30px;
-        }
-
-        .social-links a:hover {
-            color: var(--neon-pink);
-            transform: translateY(-3px);
-            background: rgba(255, 255, 255, 0.1);
+            width: fit-content;
         }
 
         .instagram-icon {
@@ -761,6 +804,7 @@
             border-radius: 5px;
             display: inline-block;
             position: relative;
+            flex-shrink: 0;
         }
 
         .instagram-icon::before {
@@ -788,7 +832,8 @@
 
         .footer-text {
             color: var(--text-gray);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            line-height: 1.6;
         }
 
         .heartbeat {
@@ -797,295 +842,125 @@
             display: inline-block;
         }
 
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+        /* MEDIA QUERIES - TABLET Y DESKTOP */
+        @media (min-width: 640px) {
+            .months-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .workshops-grid,
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .services-grid,
+            .rules-grid,
+            .pricing-cards,
+            .contact-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .social-links {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .carousel-slide {
+                padding: 3rem 2rem;
+                min-height: 350px;
+            }
         }
 
-        .carousel {
-            position: relative;
-            max-width: 1200px;
-            margin: 2rem auto;
-            overflow: hidden;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.7);
-            border: 2px solid rgba(255, 0, 110, 0.3);
-        }
+        @media (min-width: 768px) {
+            .menu-toggle {
+                display: none;
+            }
 
-        .carousel-container {
-            display: flex;
-            transition: transform 0.6s ease;
-        }
+            .nav-links {
+                display: flex !important;
+                position: static;
+                flex-direction: row;
+                width: auto;
+                background: transparent;
+                padding: 0;
+                gap: 1.5rem;
+            }
 
-        .carousel-slide {
-            min-width: 100%;
-            padding: 4rem 2rem;
-            background: linear-gradient(135deg, #1a0033, #33001a);
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-        }
-
-        .carousel-slide::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at center, rgba(255,0,110,0.3) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .carousel-slide h3 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: var(--neon-pink);
-            text-shadow: 0 0 15px rgba(255,0,110,0.7);
-            position: relative;
-            z-index: 2;
-        }
-
-        .carousel-slide p {
-            font-size: 1.3rem;
-            color: var(--text-gray);
-            margin-bottom: 2rem;
-            max-width: 600px;
-            position: relative;
-            z-index: 2;
-        }
-
-        .carousel-button {
-            padding: 1rem 2.5rem;
-            background: transparent;
-            border: 3px solid var(--neon-blue);
-            color: var(--neon-blue);
-            font-family: 'Bebas Neue', cursive;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            position: relative;
-            z-index: 2;
-            border-radius: 50px;
-            letter-spacing: 0.1em;
-        }
-
-        .carousel-button:hover {
-            background: var(--neon-blue);
-            color: var(--dark-bg);
-            box-shadow: 0 0 30px rgba(0,245,255,0.7);
-            transform: scale(1.05);
-        }
-
-        .carousel-prev, .carousel-next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.7);
-            color: white;
-            border: 2px solid var(--neon-pink);
-            padding: 1rem;
-            cursor: pointer;
-            font-size: 2rem;
-            z-index: 10;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .carousel-prev:hover, .carousel-next:hover {
-            background: var(--neon-pink);
-            border-color: var(--neon-blue);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .carousel-prev {
-            left: 20px;
-        }
-
-        .carousel-next {
-            right: 20px;
-        }
-
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 0.8rem;
-            margin-top: 1.5rem;
-        }
-
-        .carousel-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--text-gray);
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-
-        .carousel-dot.active {
-            background: var(--neon-pink);
-            transform: scale(1.2);
-            border-color: var(--neon-blue);
-        }
-
-        .promo-banner {
-            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem auto;
-            text-align: center;
-            max-width: 1000px;
-            box-shadow: 0 10px 30px rgba(255,0,110,0.3);
-            border: 2px solid var(--neon-blue);
-        }
-
-        .promo-banner h3 {
-            font-size: 2.5rem;
-            color: white;
-            text-shadow: 2px 2px 0 var(--dark-bg);
-            margin-bottom: 1rem;
-        }
-
-        .promo-banner p {
-            font-size: 1.2rem;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 1.5rem;
-        }
-
-        .promo-button {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: var(--dark-bg);
-            color: var(--neon-blue);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.3rem;
-            border: 2px solid var(--neon-blue);
-            transition: all 0.3s;
-        }
-
-        .promo-button:hover {
-            background: var(--neon-blue);
-            color: var(--dark-bg);
-            transform: scale(1.05);
-            box-shadow: 0 0 20px var(--neon-blue);
-        }
-
-        .materiales-protegido {
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid var(--neon-purple);
-            border-radius: 15px;
-            padding: 2rem;
-            margin-top: 2rem;
-            text-align: center;
-        }
-
-        .materiales-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            max-width: 400px;
-            margin: 1rem auto;
-        }
-
-        .materiales-form input {
-            padding: 0.8rem;
-            border: 1px solid var(--neon-blue);
-            background: rgba(255,255,255,0.1);
-            color: var(--text-light);
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-
-        .materiales-form button {
-            padding: 0.8rem;
-            background: var(--neon-pink);
-            border: none;
-            color: var(--dark-bg);
-            font-weight: 700;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: transform 0.3s;
-        }
-
-        .materiales-form button:hover {
-            transform: scale(1.05);
-        }
-
-        .error-message {
-            color: var(--neon-pink);
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-
-        .services-highlight {
-            text-align: center;
-            margin-top: 3rem;
-        }
-
-        .services-button {
-            padding: 1rem 2rem;
-            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            display: inline-block;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 2px solid transparent;
-        }
-
-        .services-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 20px var(--neon-pink);
-            border-color: var(--neon-blue);
-        }
-
-        @media (max-width: 768px) {
             nav {
-                gap: 1rem;
-                padding: 0.5rem;
+                justify-content: center;
+                padding: 1rem 2rem;
             }
-            
+
             nav a {
-                font-size: 0.8rem;
+                padding: 0.5rem 0;
+                font-size: 0.85rem;
             }
-            
+
+            nav a:hover {
+                background: transparent;
+            }
+
             section {
-                padding: 3rem 1rem;
+                padding: 5rem 2rem;
             }
-            
-            .schedule-table th,
-            .schedule-table td {
-                padding: 1rem;
-                font-size: 0.9rem;
+
+            .months-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .pricing-card.featured {
-                transform: scale(1);
+                transform: scale(1.05);
+                order: 0;
             }
 
-            .carousel-slide h3 {
-                font-size: 2rem;
+            .carousel-prev, .carousel-next {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+
+            .carousel-prev { left: 20px; }
+            .carousel-next { right: 20px; }
+        }
+
+        @media (min-width: 1024px) {
+            .services-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .rules-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .pricing-cards {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .contact-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
 
+        @media (min-width: 1200px) {
+            .months-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        /* UTILIDADES */
+        .text-center { text-align: center; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .mt-2 { margin-top: 1rem; }
+
+        /* SCROLLBAR */
         ::-webkit-scrollbar {
-            width: 10px;
+            width: 8px;
         }
 
         ::-webkit-scrollbar-track {
@@ -1094,28 +969,41 @@
 
         ::-webkit-scrollbar-thumb {
             background: var(--neon-pink);
-            border-radius: 5px;
+            border-radius: 4px;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--neon-blue);
+        /* REDUCIR ANIMACIONES PARA USUARIOS QUE LO PREFIEREN */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
     <div class="bg-animation"></div>
 
     <nav>
-        <a href="#inicio">Inicio</a>
-        <a href="#calendario">Calendario</a>
-        <a href="#horario">Horario</a>
-        <a href="#cursos">Cursos</a>
-        <a href="#servicios">Servicios</a>
-        <a href="#equipo">Equipo</a>
-        <a href="#normas">Normas</a>
-        <a href="#precios">Precios</a>
-        <a href="#materiales">Materiales</a>
-        <a href="#contacto">Contacto</a>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-links" id="navLinks">
+            <a href="#inicio">Inicio</a>
+            <a href="#calendario">Calendario</a>
+            <a href="#horario">Horario</a>
+            <a href="#cursos">Cursos</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#equipo">Equipo</a>
+            <a href="#normas">Normas</a>
+            <a href="#precios">Precios</a>
+            <a href="#materiales">Materiales</a>
+            <a href="#contacto">Contacto</a>
+        </div>
     </nav>
 
     <header id="inicio">
@@ -1126,7 +1014,7 @@
         <a href="#contacto" class="cta-button">Únete al Movimiento</a>
     </header>
 
-    <section style="padding-top: 2rem;">
+    <section style="padding-top: 1rem;">
         <h2>🔥 Servicios destacados</h2>
         <div class="carousel">
             <div class="carousel-container" id="carouselContainer">
@@ -1156,8 +1044,8 @@
                     <a href="#servicios" class="carousel-button">Ver más</a>
                 </div>
             </div>
-            <button class="carousel-prev" id="prevBtn">❮</button>
-            <button class="carousel-next" id="nextBtn">❯</button>
+            <button class="carousel-prev" id="prevBtn" aria-label="Anterior">❮</button>
+            <button class="carousel-next" id="nextBtn" aria-label="Siguiente">❯</button>
         </div>
         <div class="carousel-dots" id="carouselDots"></div>
     </section>
@@ -1166,7 +1054,7 @@
         <div class="promo-banner">
             <h3>📢 Promos y noticias</h3>
             <p>Entérate de ofertas, eventos, talleres intensivos y mucho más. ¡Únete a nuestra comunidad de WhatsApp!</p>
-            <a href="https://chat.whatsapp.com/Fv0KSE9euwkBzCTHk4KdpT" target="_blank" class="promo-button">Unirme al canal</a>
+            <a href="https://chat.whatsapp.com/Fv0KSE9euwkBzCTHk4KdpT" target="_blank" rel="noopener noreferrer" class="promo-button">Unirme al canal</a>
         </div>
     </section>
 
@@ -1229,15 +1117,18 @@
         </div>
 
         <div class="inscription-note">
-            <strong>📝 Inscripciones Segundo Semestre</strong>
+            <strong style="color: var(--neon-pink); display: block; margin-bottom: 0.5rem; font-size: 1.1rem;">📝 Inscripciones Segundo Semestre</strong>
             <p>Del 16 de julio al 5 de agosto<br>Reserva tu cupo a tiempo, son solo 8 cupos por taller</p>
         </div>
 
-        <div class="card" style="margin-top: 2rem;">
-            <strong style="color: var(--neon-blue);">📍 Sede Escuela (sábados):</strong> Sede Comunitaria Los Sauces, Portales 1095, El Bosque<br>
-            <strong style="color: var(--neon-pink);">🎟️ Cupos:</strong> Solo 8 personas por taller<br>
-            <strong style="color: var(--neon-purple);">👥 Edad:</strong> Desde 12 años (excepciones solo para estudiantes antiguos)<br><br>
-            <a href="https://www.canva.com/design/DAHBzHmOp8A/fsZLCp5c0FH2inswkbuHQw/edit?utm_content=DAHBzHmOp8A&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton" target="_blank" class="location-link">
+        <div class="card" style="margin-top: 1.5rem;">
+            <strong style="color: var(--neon-blue); display: block; margin-bottom: 0.5rem;">📍 Sede Escuela (sábados):</strong> 
+            <p class="mb-1">Sede Comunitaria Los Sauces, Portales 1095, El Bosque</p>
+            <strong style="color: var(--neon-pink); display: block; margin: 0.75rem 0 0.25rem;">🎟️ Cupos:</strong> 
+            <p class="mb-1">Solo 8 personas por taller</p>
+            <strong style="color: var(--neon-purple); display: block; margin: 0.75rem 0 0.25rem;">👥 Edad:</strong> 
+            <p>Desde 12 años (excepciones solo para estudiantes antiguos)</p>
+            <a href="https://www.canva.com/design/DAHBzHmOp8A/fsZLCp5c0FH2inswkbuHQw/edit" target="_blank" rel="noopener noreferrer" class="location-link">
                 📍 Ver ubicación de la sede
             </a>
         </div>
@@ -1245,53 +1136,55 @@
 
     <section id="horario">
         <h2>⏰ Estructura de Clases</h2>
-        <p style="text-align: center; color: var(--text-gray); margin-bottom: 2rem;">Sábados de 11:00 a 14:00 hrs (excepto primera clase: domingo 8 marzo)</p>
+        <p style="text-align: center; color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.95rem;">Sábados de 11:00 a 14:00 hrs (excepto primera clase: domingo 8 marzo)</p>
         
-        <table class="schedule-table">
-            <thead>
-                <tr>
-                    <th>Horario</th>
-                    <th>Actividad</th>
-                    <th>Descripción</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="time">11:00 - 11:30</td>
-                    <td>Bienvenida y Calentamiento</td>
-                    <td>Ambos cursos juntes. Prevención de lesiones y preparación física fundamentada científicamente</td>
-                </tr>
-                <tr>
-                    <td class="time">11:35 - 12:00</td>
-                    <td>Bloque Base</td>
-                    <td>Expresión corporal y/o preacrobáticos. Bases expresivas integradas con preparación física preventiva</td>
-                </tr>
-                <tr>
-                    <td class="time">12:00 - 13:20</td>
-                    <td>Clase Regular por Curso</td>
-                    <td>Breaking con Profe Dany / Lira con Profe Kari</td>
-                </tr>
-                <tr>
-                    <td class="time">13:20 - 13:30</td>
-                    <td>Feedback y Vuelta a la Calma</td>
-                    <td>Reflexión grupal y cierre de la sesión</td>
-                </tr>
-                <tr>
-                    <td class="time">13:30 - 14:00</td>
-                    <td>Entrenamiento Libre</td>
-                    <td>Práctica autónoma supervisada</td>
-                </tr>
-            </tbody>
-        </table>
+        <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Horario</th>
+                        <th>Actividad</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="time">11:00 - 11:30</td>
+                        <td>Bienvenida y Calentamiento</td>
+                        <td>Ambos cursos juntes. Prevención de lesiones y preparación física fundamentada científicamente</td>
+                    </tr>
+                    <tr>
+                        <td class="time">11:35 - 12:00</td>
+                        <td>Bloque Base</td>
+                        <td>Expresión corporal y/o preacrobáticos. Bases expresivas integradas con preparación física preventiva</td>
+                    </tr>
+                    <tr>
+                        <td class="time">12:00 - 13:20</td>
+                        <td>Clase Regular por Curso</td>
+                        <td>Breaking con Profe Dany / Lira con Profe Kari</td>
+                    </tr>
+                    <tr>
+                        <td class="time">13:20 - 13:30</td>
+                        <td>Feedback y Vuelta a la Calma</td>
+                        <td>Reflexión grupal y cierre de la sesión</td>
+                    </tr>
+                    <tr>
+                        <td class="time">13:30 - 14:00</td>
+                        <td>Entrenamiento Libre</td>
+                        <td>Práctica autónoma supervisada</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
 
     <section id="cursos">
         <h2>🎪 Cursos de la Escuela</h2>
-        <p style="text-align: center; color: var(--text-gray); margin-bottom: 2rem;">Nuestra oferta formativa principal en circo urbano</p>
+        <p style="text-align: center; color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.95rem;">Nuestra oferta formativa principal en circo urbano</p>
         
         <div class="workshops-grid">
             <div class="workshop-card">
-                <h3 class="workshop-title">BREAKING</h3>
+                <h3 class="workshop-title" style="color: var(--neon-pink);">BREAKING</h3>
                 <p class="professor">Profe Dany @dany.el.trainer</p>
                 <ul class="workshop-content">
                     <li>Powermoves</li>
@@ -1304,7 +1197,7 @@
             </div>
 
             <div class="workshop-card">
-                <h3 class="workshop-title">LIRA (Aerial Hoop)</h3>
+                <h3 class="workshop-title" style="color: var(--neon-blue);">LIRA (Aerial Hoop)</h3>
                 <p class="professor">Profe Kari @lakari.silvestre</p>
                 <ul class="workshop-content">
                     <li>Exploración del aparato aéreo</li>
@@ -1317,10 +1210,10 @@
             </div>
         </div>
 
-        <div class="card" style="margin-top: 3rem;">
+        <div class="card" style="margin-top: 2rem;">
             <h3 style="color: var(--neon-purple); margin-bottom: 1rem;">🤸 Aprendizajes Transversales (Bloque Base)</h3>
-            <p>Compartidos por ambos cursos para un desarrollo integral:</p>
-            <ul style="margin-top: 1rem; margin-left: 1.5rem; line-height: 2;">
+            <p style="margin-bottom: 0.75rem;">Compartidos por ambos cursos para un desarrollo integral:</p>
+            <ul style="margin-left: 1.25rem; line-height: 1.8; font-size: 0.95rem;">
                 <li>Preacrobáticos y acrobacias de piso básicas</li>
                 <li>Mano a mano: secuencias grupales desde breaking y circo</li>
                 <li>Preparación física básica y específica</li>
@@ -1332,7 +1225,7 @@
 
     <section id="servicios">
         <h2>🌟 Servicios Profesionales</h2>
-        <p style="text-align: center; color: var(--text-gray); margin-bottom: 2rem;">Clases, talleres y entrenamientos para todos los niveles</p>
+        <p style="text-align: center; color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.95rem;">Clases, talleres y entrenamientos para todos los niveles</p>
         
         <div class="services-grid">
             <div class="service-card">
@@ -1342,7 +1235,7 @@
                     Desde lo más básico hasta secuencias complejas. Contamos con colchonetones, tatamis y airtrack. 
                     Ideal para complementar tu práctica de breaking o circo. Días jueves.
                 </div>
-                <a href="https://chat.whatsapp.com/DX6IY4INawE54PQiyqLeS4" target="_blank" class="service-link">Únete al grupo WhatsApp →</a>
+                <a href="https://chat.whatsapp.com/DX6IY4INawE54PQiyqLeS4" target="_blank" rel="noopener noreferrer" class="service-link">Únete al grupo WhatsApp →</a>
             </div>
 
             <div class="service-card">
@@ -1352,7 +1245,7 @@
                     Clases 1 a 1 o grupales (sincrónicas/asincrónicas). Diseñamos un plan adaptado a tus metas: 
                     fuerza, flexibilidad, acrobacias o acondicionamiento físico.
                 </div>
-                <a href="https://wa.me/c/56935541341" target="_blank" class="service-link">Ver catálogo WhatsApp →</a>
+                <a href="https://wa.me/c/56935541341" target="_blank" rel="noopener noreferrer" class="service-link">Ver catálogo WhatsApp →</a>
             </div>
 
             <div class="service-card">
@@ -1362,7 +1255,7 @@
                     Entrenamiento al aire libre en Lo Espejo. Mejora tu fuerza, control corporal y domina la barra 
                     en un ambiente comunitario y motivador.
                 </div>
-                <a href="https://www.instagram.com/activa.tuplaza.libresanlucas/" target="_blank" class="service-link">@activa.tuplaza.libresanlucas →</a>
+                <a href="https://www.instagram.com/activa.tuplaza.libresanlucas/" target="_blank" rel="noopener noreferrer" class="service-link">@activa.tuplaza.libresanlucas →</a>
             </div>
 
             <div class="service-card">
@@ -1372,7 +1265,7 @@
                     Clases en <strong>Luis Alberto Heiremans Sur 1382, San Bernardo</strong>. Espacio exclusivo para mujeres. 
                     Ritmo, actitud y coreografías para soltar el cuerpo y divertirte.
                 </div>
-                <a href="https://www.instagram.com/equilibriodesiquilibrado/" target="_blank" class="service-link">@equilibriodesiquilibrado →</a>
+                <a href="https://www.instagram.com/equilibriodesiquilibrado/" target="_blank" rel="noopener noreferrer" class="service-link">@equilibriodesiquilibrado →</a>
             </div>
 
             <div class="service-card">
@@ -1382,7 +1275,7 @@
                     Acompañamiento psicológico con enfoque en bienestar emocional y desarrollo personal. 
                     Parte de nuestro equipo organizativo.
                 </div>
-                <a href="https://www.instagram.com/psicosthefi/" target="_blank" class="service-link">@psicosthefi →</a>
+                <a href="https://www.instagram.com/psicosthefi/" target="_blank" rel="noopener noreferrer" class="service-link">@psicosthefi →</a>
             </div>
 
             <div class="service-card">
@@ -1392,7 +1285,7 @@
                     Clases personalizadas o grupales (máx 4 personas) en horarios a convenir. 
                     Perfecciona tu técnica, gana altura y creatividad en el aro.
                 </div>
-                <a href="https://wa.me/56987053650" target="_blank" class="service-link">Consultar disponibilidad →</a>
+                <a href="https://wa.me/56987053650" target="_blank" rel="noopener noreferrer" class="service-link">Consultar disponibilidad →</a>
             </div>
 
             <div class="service-card">
@@ -1402,7 +1295,7 @@
                     Entrenamiento 1 a 1 enfocado en tus metas: powermoves, freezes, acrobacias de piso, 
                     o preparación física para circo. ¡Avanza a tu ritmo!
                 </div>
-                <a href="https://wa.me/56935541341" target="_blank" class="service-link">Agenda tu sesión →</a>
+                <a href="https://wa.me/56935541341" target="_blank" rel="noopener noreferrer" class="service-link">Agenda tu sesión →</a>
             </div>
 
             <div class="service-card">
@@ -1416,14 +1309,14 @@
             </div>
         </div>
 
-        <div class="services-highlight">
-            <a href="#contacto" class="services-button">📲 Contáctanos para más info</a>
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="#contacto" class="cta-button" style="margin-top: 0;">📲 Contáctanos para más info</a>
         </div>
     </section>
 
     <section id="equipo">
         <h2>👥 Quienes Somos</h2>
-        <p style="text-align: center; color: var(--text-gray); margin-bottom: 2rem;">Facilitadores y cofundadores de la Escuela de Circo Urbano</p>
+        <p style="text-align: center; color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.95rem;">Facilitadores y cofundadores de la Escuela de Circo Urbano</p>
         
         <div class="team-grid">
             <div class="team-card">
@@ -1456,39 +1349,39 @@
         <h2>📜 Normas del Espacio</h2>
         
         <div class="rules-grid">
-            <div class="rule-item important">
-                <div class="rule-title">⚡ Puntualidad Obligatoria</div>
-                <p>Llegar a la hora es fundamental. El calentamiento está diseñado con bases físicas científicas para reducir riesgo de lesiones y optimizar tu desarrollo. Perderlo = riesgo + distracción para el grupo.</p>
-            </div>
-
             <div class="rule-item">
-                <div class="rule-title">👥 Responsabilidad con Menores</div>
-                <p>Si asistes con menores, debes estar mayormente atente. Son espacios acrobáticos de riesgo compartidos. No interrumpas la clase cruzándote con elles; si es necesario, retírales con el cuidado y amor que la infancia merece.</p>
+                <div class="rule-title">⚡ Puntualidad Obligatoria</div>
+                <p style="font-size: 0.9rem; color: var(--text-gray);">Llegar a la hora es fundamental. El calentamiento está diseñado con bases físicas científicas para reducir riesgo de lesiones y optimizar tu desarrollo. Perderlo = riesgo + distracción para el grupo.</p>
             </div>
 
-            <div class="rule-item community">
-                <div class="rule-title">🤝 Espacio Seguro</div>
-                <p>No es un espacio misógino, racista ni violento en ningún sentido. No somos punitivxs, pero preferimos evitar conductas en las que cada persona podría estar trabajando individualmente.</p>
+            <div class="rule-item" style="border-left-color: var(--neon-blue); background: rgba(0, 245, 255, 0.05);">
+                <div class="rule-title" style="color: var(--neon-blue);">👥 Responsabilidad con Menores</div>
+                <p style="font-size: 0.9rem; color: var(--text-gray);">Si asistes con menores, debes estar mayormente atente. Son espacios acrobáticos de riesgo compartidos. No interrumpas la clase cruzándote con elles; si es necesario, retírales con el cuidado y amor que la infancia merece.</p>
+            </div>
+
+            <div class="rule-item" style="border-left-color: var(--neon-purple); background: rgba(188, 19, 254, 0.05);">
+                <div class="rule-title" style="color: var(--neon-purple);">🤝 Espacio Seguro</div>
+                <p style="font-size: 0.9rem; color: var(--text-gray);">No es un espacio misógino, racista ni violento en ningún sentido. No somos punitivxs, pero preferimos evitar conductas en las que cada persona podría estar trabajando individualmente.</p>
             </div>
 
             <div class="rule-item">
                 <div class="rule-title">🧹 Cuidado de Materiales</div>
-                <p>Cuida los materiales, el espacio y su limpieza. Si puedes apoyar en la limpieza y orden al finalizar, ¡se agradece mucho! Somos una comunidad.</p>
+                <p style="font-size: 0.9rem; color: var(--text-gray);">Cuida los materiales, el espacio y su limpieza. Si puedes apoyar en la limpieza y orden al finalizar, ¡se agradece mucho! Somos una comunidad.</p>
             </div>
 
-            <div class="rule-item important">
-                <div class="rule-title">🎂 Edad Mínima</div>
-                <p>Desde los 12 años. Excepciones únicamente para estudiantes antiguos que ya forman parte de la comunidad.</p>
+            <div class="rule-item" style="border-left-color: var(--neon-blue); background: rgba(0, 245, 255, 0.05);">
+                <div class="rule-title" style="color: var(--neon-blue);">🎂 Edad Mínima</div>
+                <p style="font-size: 0.9rem; color: var(--text-gray);">Desde los 12 años. Excepciones únicamente para estudiantes antiguos que ya forman parte de la comunidad.</p>
             </div>
 
-            <div class="rule-item community">
-                <div class="rule-title">💜 Comunidad</div>
-                <p>Este es un espacio de apoyo mutuo. El mayor cuidado viene de quien acompaña, pero entre todes nos cuidamos.</p>
+            <div class="rule-item" style="border-left-color: var(--neon-purple); background: rgba(188, 19, 254, 0.05);">
+                <div class="rule-title" style="color: var(--neon-purple);">💜 Comunidad</div>
+                <p style="font-size: 0.9rem; color: var(--text-gray);">Este es un espacio de apoyo mutuo. El mayor cuidado viene de quien acompaña, pero entre todes nos cuidamos.</p>
             </div>
 
-            <div class="rule-item important" style="grid-column: span 2;">
+            <div class="rule-item" style="grid-column: 1 / -1;">
                 <div class="rule-title">⚠️ Atención: El riesgo es parte del arte</div>
-                <p>
+                <p style="font-size: 0.9rem; color: var(--text-gray); line-height: 1.7;">
                     Las disciplinas acrobáticas (Breaking, Lira, acrobacias) son hermosas pero conllevan un riesgo inherente. 
                     Para minimizarlo, nuestras clases siguen una progresión pedagógica clara: cada movimiento se enseña cuando 
                     el cuerpo está preparado. Es fundamental que durante las explicaciones técnicas y de seguridad estemos 
@@ -1499,25 +1392,27 @@
             </div>
         </div>
 
-        <div class="card" style="margin-top: 2rem; border-color: var(--neon-pink);">
-            <h3 style="color: var(--neon-pink); margin-bottom: 1rem;">🎒 Infraestructura Disponible</h3>
-            <p style="color: var(--text-gray);">
+        <div class="card" style="margin-top: 1.5rem; border-color: var(--neon-pink);">
+            <h3 style="color: var(--neon-pink); margin-bottom: 0.75rem; font-size: 1.3rem;">🎒 Infraestructura Disponible</h3>
+            <p style="color: var(--text-gray); font-size: 0.9rem; line-height: 1.7;">
                 Contamos con tatamis, colchonetas de diversas medidas, airtracks, liras con mosquetones giratorios, 
                 eslingas, tela aérea, anillas de gimnasia, bloques de mat, equipo de sonido, 
                 <strong>cancha y estructura para aparatos aéreos, aerial straps</strong>.
-                <br><br>
-                <em>Nota: El espacio compartido entre ambos talleres (división del área) aplica solo para la Escuela de los sábados. 
-                Los demás talleres y servicios se realizan en sus espacios propios (Plaza San Lucas, San Bernardo, etc.)</em>
+            </p>
+            <p style="color: var(--text-gray); font-size: 0.85rem; margin-top: 0.75rem; font-style: italic;">
+                Nota: El espacio compartido entre ambos talleres (división del área) aplica solo para la Escuela de los sábados. 
+                Los demás talleres y servicios se realizan en sus espacios propios (Plaza San Lucas, San Bernardo, etc.)
             </p>
         </div>
     </section>
 
     <section id="precios">
         <h2>💰 Aranceles 2026</h2>
-        <p style="text-align: center; color: var(--text-gray); margin-bottom: 1rem;">Forma de pago: Antes de comenzar el mes/semestre, o durante la primera clase. Para clase a clase: previo a iniciar o antes de finalizar. <strong style="color: var(--neon-pink);">No se aceptan pagos pendientes.</strong></p>
+        <p style="text-align: center; color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.9rem; padding: 0 1rem;">Forma de pago: Antes de comenzar el mes/semestre, o durante la primera clase. Para clase a clase: previo a iniciar o antes de finalizar. <strong style="color: var(--neon-pink);">No se aceptan pagos pendientes.</strong></p>
         
         <div class="pricing-cards">
-            <div class="pricing-card featured">
+            <div class="pricing-card featured" style="position: relative;">
+                <div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--neon-pink); color: var(--dark-bg); padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: 700; border-radius: 20px;">RECOMENDADO</div>
                 <div class="pricing-name">Semestral (Escuela de Circo Urbano)</div>
                 <div class="price price-cash">$50.000</div>
                 <div class="price-transfer">$60.000 transferencia</div>
@@ -1539,7 +1434,7 @@
             </div>
         </div>
 
-        <div class="promo-note">
+        <div style="background: rgba(0, 245, 255, 0.1); border: 1px solid var(--neon-blue); border-radius: 8px; padding: 1rem; margin-top: 1.5rem; text-align: center; color: var(--neon-blue); font-weight: 600; font-size: 0.95rem;">
             🎉 <strong>Promoción especial:</strong> Tu primer pago mensual por transferencia tiene el valor de efectivo ($12.000) ¡Aprovecha!
         </div>
     </section>
@@ -1547,15 +1442,15 @@
     <section id="materiales">
         <h2>📚 Materiales de apoyo</h2>
         <div class="materiales-protegido">
-            <h3 style="color: var(--neon-purple);">Acceso exclusivo para estudiantes</h3>
-            <p>Ingresa tu correo y la contraseña para acceder a los recursos didácticos.</p>
+            <h3 style="color: var(--neon-purple); margin-bottom: 0.5rem; font-size: 1.3rem;">Acceso exclusivo para estudiantes</h3>
+            <p style="font-size: 0.9rem; margin-bottom: 1rem;">Ingresa tu correo y la contraseña para acceder a los recursos didácticos.</p>
             
-            <div class="materiales-form" id="materialesForm">
-                <input type="email" id="emailInput" placeholder="Tu correo electrónico" required>
-                <input type="password" id="passwordInput" placeholder="Contraseña" required>
-                <button id="submitMateriales">Ingresar</button>
-            </div>
-            <div id="errorMessage" class="error-message"></div>
+            <form class="materiales-form" id="materialesForm" onsubmit="return false;">
+                <input type="email" id="emailInput" placeholder="Tu correo electrónico" required autocomplete="email">
+                <input type="password" id="passwordInput" placeholder="Contraseña" required autocomplete="current-password">
+                <button type="button" id="submitMateriales">Ingresar</button>
+            </form>
+            <div id="errorMessage" style="color: var(--neon-pink); font-size: 0.85rem; margin-top: 0.5rem;"></div>
         </div>
     </section>
 
@@ -1563,42 +1458,42 @@
         <h2>📲 Contacto</h2>
         
         <div class="contact-warning">
-            <strong>⚠️ Importante: Concretemos</strong>
-            <p>Si nos contactas, es para concretar tu participación. Valoramos tu interés y el tiempo de todes. Muchas personas nos escriben pero luego no confirman asistencia ni reservan cupo. Si te interesa, comprometámonos. ¡Te esperamos!</p>
+            <strong style="color: var(--neon-pink); display: block; margin-bottom: 0.5rem; font-size: 1.1rem;">⚠️ Importante: Concretemos</strong>
+            <p style="font-size: 0.9rem;">Si nos contactas, es para concretar tu participación. Valoramos tu interés y el tiempo de todes. Muchas personas nos escriben pero luego no confirman asistencia ni reservan cupo. Si te interesa, comprometámonos. ¡Te esperamos!</p>
         </div>
 
         <div class="contact-grid">
             <div class="contact-card">
                 <div class="contact-type">Instagram</div>
                 <div class="contact-info">@dilo.con_movimiento</div>
-                <div class="contact-detail">Consultas y reservas vía DM</div>
+                <div class="contact-detail" style="color: var(--text-gray); font-size: 0.85rem;">Consultas y reservas vía DM</div>
             </div>
 
             <div class="contact-card">
                 <div class="contact-type">Karina (Lira)</div>
                 <div class="contact-info">+56 9 8705 3650</div>
-                <div class="contact-detail">WhatsApp directo</div>
+                <div class="contact-detail" style="color: var(--text-gray); font-size: 0.85rem;">WhatsApp directo</div>
             </div>
 
             <div class="contact-card">
                 <div class="contact-type">Daniel (Breaking)</div>
                 <div class="contact-info">+56 9 3554 1341</div>
-                <div class="contact-detail">WhatsApp directo</div>
+                <div class="contact-detail" style="color: var(--text-gray); font-size: 0.85rem;">WhatsApp directo</div>
             </div>
         </div>
 
         <div class="email-section">
-            <strong>📧 Correo electrónico</strong>
-            <p style="font-size: 1.2rem; color: var(--text-light); margin: 0.5rem 0;">diloconmovimiento@gmail.com</p>
-            <p style="color: var(--text-gray); font-size: 0.9rem;">Para clases fuera de Santiago, presentaciones, muestras y talleres en otros espacios</p>
+            <strong style="color: var(--neon-purple); display: block; margin-bottom: 0.5rem; font-size: 1.1rem;">📧 Correo electrónico</strong>
+            <p style="font-size: 1.1rem; color: var(--text-light); margin: 0.5rem 0;">diloconmovimiento@gmail.com</p>
+            <p style="color: var(--text-gray); font-size: 0.85rem;">Para clases fuera de Santiago, presentaciones, muestras y talleres en otros espacios</p>
         </div>
     </section>
 
     <footer>
-        <h2 style="margin-bottom: 2rem;">Únete al Movimiento</h2>
+        <h2 style="margin-bottom: 1.5rem; font-size: clamp(1.5rem, 5vw, 2rem);">Únete al Movimiento</h2>
         
         <div class="social-links">
-            <a href="https://instagram.com/dilo.con_movimiento" target="_blank">
+            <a href="https://instagram.com/dilo.con_movimiento" target="_blank" rel="noopener noreferrer">
                 <span class="instagram-icon"></span>
                 @dilo.con_movimiento
             </a>
@@ -1617,17 +1512,42 @@
     </footer>
 
     <script>
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        // Menú hamburguesa
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Cerrar menú al hacer clic en un enlace
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
             });
         });
 
-        // Animación al scroll
+        // Smooth scroll para anclas
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerOffset = 60;
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Animación al scroll (Intersection Observer)
         const observerOptions = {
             threshold: 0.1,
             rootMargin: "0px 0px -50px 0px"
@@ -1649,7 +1569,7 @@
             observer.observe(el);
         });
 
-        // Carrusel
+        // Carrusel optimizado para touch
         const carouselContainer = document.getElementById('carouselContainer');
         const slides = document.querySelectorAll('.carousel-slide');
         const prevBtn = document.getElementById('prevBtn');
@@ -1658,11 +1578,14 @@
         let currentIndex = 0;
         const totalSlides = slides.length;
         let autoSlideInterval;
+        let touchStartX = 0;
+        let touchEndX = 0;
 
+        // Crear dots
         for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('span');
+            const dot = document.createElement('button');
             dot.classList.add('carousel-dot');
-            dot.dataset.index = i;
+            dot.setAttribute('aria-label', `Ir a slide ${i + 1}`);
             dot.addEventListener('click', () => goToSlide(i));
             dotsContainer.appendChild(dot);
         }
@@ -1671,11 +1594,7 @@
         function updateCarousel() {
             carouselContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
             dots.forEach((dot, index) => {
-                if (index === currentIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
+                dot.classList.toggle('active', index === currentIndex);
             });
         }
 
@@ -1698,10 +1617,35 @@
             prevSlide();
             resetAutoSlide();
         });
+        
         nextBtn.addEventListener('click', () => {
             nextSlide();
             resetAutoSlide();
         });
+
+        // Soporte para gestos táctiles
+        carouselContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, {passive: true});
+
+        carouselContainer.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, {passive: true});
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+                resetAutoSlide();
+            }
+        }
 
         function startAutoSlide() {
             autoSlideInterval = setInterval(nextSlide, 5000);
@@ -1715,20 +1659,21 @@
         startAutoSlide();
         updateCarousel();
 
-        carouselContainer.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
-        carouselContainer.addEventListener('mouseleave', startAutoSlide);
+        // Pausar en hover (solo en desktop)
+        const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
+        if (!isTouchDevice) {
+            carouselContainer.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
+            carouselContainer.addEventListener('mouseleave', startAutoSlide);
+        }
 
-        // Materiales protegidos - Versión simplificada: redirige directamente
-        const validPassword = "DILOCONMOVIMIENTO2026"; // Contraseña única (en mayúsculas como pediste)
+        // Materiales protegidos
+        const validPassword = "DILOCONMOVIMIENTO2026";
         const submitBtn = document.getElementById('submitMateriales');
         const emailInput = document.getElementById('emailInput');
         const passwordInput = document.getElementById('passwordInput');
         const errorDiv = document.getElementById('errorMessage');
-        const materialesForm = document.getElementById('materialesForm');
 
-        submitBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-
+        submitBtn.addEventListener('click', function() {
             const email = emailInput.value.trim();
             const password = passwordInput.value.trim();
 
@@ -1742,9 +1687,15 @@
                 return;
             }
 
-            // Contraseña correcta: redirigir directamente al enlace de Canva
-            window.location.href = "https://www.canva.com/design/DAHBtMeIFgA/rv_yoP6U7ShiKXSxe57hhw/edit?utm_content=DAHBtMeIFgA&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton";
+            window.location.href = "https://www.canva.com/design/DAHBtMeIFgA/rv_yoP6U7ShiKXSxe57hhw/edit";
+        });
+
+        // Permitir submit con Enter
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                submitBtn.click();
+            }
         });
     </script>
 </body>
-</html>
+    </html>
