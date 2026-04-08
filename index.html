@@ -1,1701 +1,692 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dilo con Movimiento | Escuela de Circo Urbano 2026</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --neon-pink: #ff006e;
-            --neon-blue: #00f5ff;
-            --neon-purple: #bc13fe;
-            --dark-bg: #0a0a0a;
-            --card-bg: #111111;
-            --text-light: #f0f0f0;
-            --text-gray: #888;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--dark-bg);
-            color: var(--text-light);
-            line-height: 1.6;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(255, 0, 110, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 245, 255, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(188, 19, 254, 0.1) 0%, transparent 50%);
-            animation: pulse 10s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-
-        /* NAVEGACIÓN MEJORADA - MÓVIL PRIMERO */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-links {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background: rgba(10, 10, 10, 0.98);
-            flex-direction: column;
-            padding: 1rem;
-            gap: 0.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-links.active {
-            display: flex;
-        }
-
-        nav a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            transition: color 0.3s;
-            padding: 0.75rem 1rem;
-            border-radius: 5px;
-            text-align: center;
-        }
-
-        nav a:hover {
-            color: var(--neon-blue);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .menu-toggle {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            padding: 0.5rem;
-            background: none;
-            border: none;
-            z-index: 1001;
-        }
-
-        .menu-toggle span {
-            width: 25px;
-            height: 3px;
-            background: var(--neon-pink);
-            transition: all 0.3s;
-            border-radius: 2px;
-        }
-
-        .menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-
-        .menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -6px);
-        }
-
-        /* HEADER RESPONSIVO */
-        header {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 6rem 1.5rem 2rem;
-            position: relative;
-        }
-
-        .logo {
-            font-family: 'Bebas Neue', cursive;
-            font-size: clamp(2.5rem, 12vw, 6rem);
-            letter-spacing: 0.05em;
-            background: linear-gradient(135deg, var(--neon-pink), var(--neon-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-            animation: glow 3s ease-in-out infinite alternate;
-            line-height: 1.1;
-        }
-
-        @keyframes glow {
-            from { filter: drop-shadow(0 0 10px rgba(255, 0, 110, 0.5)); }
-            to { filter: drop-shadow(0 0 20px rgba(0, 245, 255, 0.5)); }
-        }
-
-        .subtitle {
-            font-size: clamp(1rem, 4vw, 1.5rem);
-            color: var(--neon-purple);
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-        }
-
-        .tagline {
-            font-size: clamp(0.9rem, 3vw, 1.2rem);
-            max-width: 600px;
-            color: var(--text-gray);
-            font-style: italic;
-            padding: 0 1rem;
-        }
-
-        .cta-button {
-            margin-top: 2rem;
-            padding: 1rem 2rem;
-            background: transparent;
-            border: 2px solid var(--neon-pink);
-            color: var(--neon-pink);
-            font-family: 'Bebas Neue', cursive;
-            font-size: clamp(1.2rem, 4vw, 1.5rem);
-            letter-spacing: 0.15em;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            border-radius: 5px;
-        }
-
-        .cta-button:hover {
-            background: var(--neon-pink);
-            color: var(--dark-bg);
-            box-shadow: 0 0 30px rgba(255, 0, 110, 0.5);
-            transform: translateY(-2px);
-        }
-
-        /* SECCIONES RESPONSIVAS */
-        section {
-            padding: 4rem 1rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        h2 {
-            font-family: 'Bebas Neue', cursive;
-            font-size: clamp(1.8rem, 6vw, 3.5rem);
-            margin-bottom: 2rem;
-            text-align: center;
-            position: relative;
-            width: 100%;
-        }
-
-        h2::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
-            margin: 0.75rem auto 0;
-        }
-
-        h3 {
-            font-family: 'Bebas Neue', cursive;
-            font-size: clamp(1.4rem, 5vw, 1.8rem);
-            margin-bottom: 1rem;
-            color: var(--neon-blue);
-        }
-
-        /* CARDS RESPONSIVAS */
-        .card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--neon-pink), var(--neon-blue));
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.1);
-        }
-
-        /* SEMESTRES Y MESES */
-        .semester {
-            margin-bottom: 3rem;
-        }
-
-        .semester-title {
-            font-family: 'Bebas Neue', cursive;
-            font-size: clamp(1.3rem, 5vw, 2rem);
-            color: var(--neon-blue);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .semester-title::before {
-            content: '▹';
-            color: var(--neon-pink);
-        }
-
-        .months-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1rem;
-        }
-
-        .month-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 1.25rem;
-        }
-
-        .month-name {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 1.3rem;
-            color: var(--neon-purple);
-            margin-bottom: 0.25rem;
-        }
-
-        .dates {
-            font-size: 1rem;
-            color: var(--text-light);
-            font-weight: 600;
-        }
-
-        .special-note {
-            color: var(--neon-pink);
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-            font-style: italic;
-        }
-
-        /* TABLA RESPONSIVA */
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1.5rem;
-            display: block;
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .schedule-table th,
-        .schedule-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-        }
-
-        .schedule-table th {
-            background: rgba(255, 0, 110, 0.1);
-            color: var(--neon-pink);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        .time {
-            color: var(--neon-blue);
-            font-weight: 700;
-            font-family: 'Bebas Neue', cursive;
-            font-size: 1.1rem;
-            white-space: nowrap;
-        }
-
-        /* GRIDS RESPONSIVOS */
-        .workshops-grid,
-        .services-grid,
-        .team-grid,
-        .rules-grid,
-        .pricing-cards,
-        .contact-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        .workshop-card,
-        .service-card,
-        .team-card,
-        .pricing-card,
-        .contact-card {
-            width: 100%;
-        }
-
-        .workshop-card {
-            background: linear-gradient(135deg, rgba(255, 0, 110, 0.1), rgba(0, 245, 255, 0.1));
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .workshop-title {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .professor {
-            color: var(--text-gray);
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .workshop-content {
-            list-style: none;
-        }
-
-        .workshop-content li {
-            padding: 0.4rem 0;
-            padding-left: 1.25rem;
-            position: relative;
-            font-size: 0.95rem;
-        }
-
-        .workshop-content li::before {
-            content: '→';
-            position: absolute;
-            left: 0;
-            color: var(--neon-purple);
-        }
-
-        .service-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 1.25rem;
-            transition: all 0.3s;
-        }
-
-        .service-name {
-            font-weight: 700;
-            color: var(--neon-blue);
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
-            font-family: 'Bebas Neue', cursive;
-            letter-spacing: 0.05em;
-        }
-
-        .service-executor {
-            color: var(--neon-pink);
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .service-description {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            margin-bottom: 0.75rem;
-            line-height: 1.5;
-        }
-
-        .service-link {
-            color: var(--neon-purple);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            word-break: break-all;
-        }
-
-        .team-card {
-            background: linear-gradient(135deg, rgba(188, 19, 254, 0.1), rgba(255, 0, 110, 0.1));
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .team-name {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 1.8rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .team-role {
-            color: var(--neon-pink);
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-        }
-
-        .team-bio {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            line-height: 1.7;
-        }
-
-        .team-cofounder {
-            display: inline-block;
-            margin-top: 0.75rem;
-            padding: 0.25rem 0.75rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            font-size: 0.75rem;
-            color: var(--neon-blue);
-        }
-
-        .rule-item {
-            background: rgba(255, 0, 110, 0.05);
-            border-left: 3px solid var(--neon-pink);
-            padding: 1.25rem;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .rule-title {
-            font-weight: 700;
-            color: var(--neon-pink);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1rem;
-        }
-
-        .pricing-card {
-            background: var(--card-bg);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .pricing-card.featured {
-            border-color: var(--neon-pink);
-            order: -1;
-        }
-
-        .pricing-name {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 1.3rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .price {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 0.25rem;
-        }
-
-        .price-cash {
-            color: var(--neon-blue);
-        }
-
-        .price-transfer {
-            color: var(--neon-purple);
-            font-size: 1.25rem;
-        }
-
-        .price-note {
-            color: var(--text-gray);
-            font-size: 0.85rem;
-            margin-top: 0.75rem;
-        }
-
-        .contact-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .contact-type {
-            font-family: 'Bebas Neue', cursive;
-            font-size: 1.2rem;
-            color: var(--neon-blue);
-            margin-bottom: 0.5rem;
-        }
-
-        .contact-info {
-            font-size: 1rem;
-            color: var(--text-light);
-            margin-bottom: 0.25rem;
-            word-break: break-all;
-        }
-
-        /* CARRUSEL RESPONSIVO */
-        .carousel {
-            position: relative;
-            width: 100%;
-            margin: 1.5rem auto;
-            overflow: hidden;
-            border-radius: 15px;
-            border: 2px solid rgba(255, 0, 110, 0.3);
-        }
-
-        .carousel-container {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
-
-        .carousel-slide {
-            min-width: 100%;
-            padding: 2rem 1.5rem;
-            background: linear-gradient(135deg, #1a0033, #33001a);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 300px;
-        }
-
-        .carousel-slide h3 {
-            font-size: clamp(1.8rem, 8vw, 2.5rem);
-            margin-bottom: 0.75rem;
-            color: var(--neon-pink);
-        }
-
-        .carousel-slide p {
-            font-size: 1rem;
-            color: var(--text-gray);
-            margin-bottom: 1.5rem;
-            max-width: 100%;
-        }
-
-        .carousel-button {
-            padding: 0.75rem 1.5rem;
-            background: transparent;
-            border: 2px solid var(--neon-blue);
-            color: var(--neon-blue);
-            font-family: 'Bebas Neue', cursive;
-            font-size: 1.2rem;
-            cursor: pointer;
-            text-decoration: none;
-            border-radius: 50px;
-        }
-
-        .carousel-prev, .carousel-next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.7);
-            color: white;
-            border: 2px solid var(--neon-pink);
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-        }
-
-        .carousel-prev { left: 10px; }
-        .carousel-next { right: 10px; }
-
-        .carousel-dots {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .carousel-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--text-gray);
-            cursor: pointer;
-            border: none;
-        }
-
-        .carousel-dot.active {
-            background: var(--neon-pink);
-            transform: scale(1.2);
-        }
-
-        /* BANNERS Y NOTAS */
-        .promo-banner {
-            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin: 1.5rem auto;
-            text-align: center;
-            border: 2px solid var(--neon-blue);
-        }
-
-        .promo-banner h3 {
-            font-size: clamp(1.5rem, 6vw, 2rem);
-            color: white;
-            margin-bottom: 0.75rem;
-        }
-
-        .promo-banner p {
-            font-size: 0.95rem;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 1rem;
-        }
-
-        .promo-button {
-            display: inline-block;
-            padding: 0.75rem 1.5rem;
-            background: var(--dark-bg);
-            color: var(--neon-blue);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1rem;
-            border: 2px solid var(--neon-blue);
-        }
-
-        .inscription-note,
-        .contact-warning,
-        .email-section,
-        .materiales-protegido {
-            padding: 1.25rem;
-            border-radius: 10px;
-            margin: 1.5rem 0;
-            text-align: center;
-        }
-
-        .inscription-note {
-            background: linear-gradient(135deg, rgba(255, 0, 110, 0.1), rgba(0, 245, 255, 0.1));
-            border: 2px solid var(--neon-pink);
-        }
-
-        .contact-warning {
-            background: linear-gradient(135deg, rgba(255, 0, 110, 0.1), rgba(188, 19, 254, 0.1));
-            border: 1px solid var(--neon-pink);
-        }
-
-        .email-section {
-            background: linear-gradient(135deg, rgba(188, 19, 254, 0.1), rgba(255, 0, 110, 0.1));
-            border: 1px solid var(--neon-purple);
-        }
-
-        .materiales-protegido {
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid var(--neon-purple);
-        }
-
-        .materiales-form {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            max-width: 100%;
-            margin: 1rem auto;
-        }
-
-        .materiales-form input {
-            padding: 0.75rem;
-            border: 1px solid var(--neon-blue);
-            background: rgba(255,255,255,0.1);
-            color: var(--text-light);
-            border-radius: 5px;
-            font-size: 1rem;
-            width: 100%;
-        }
-
-        .materiales-form button {
-            padding: 0.75rem;
-            background: var(--neon-pink);
-            border: none;
-            color: var(--dark-bg);
-            font-weight: 700;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-
-        .location-link {
-            display: inline-block;
-            margin-top: 1rem;
-            padding: 0.75rem 1.25rem;
-            background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        /* FOOTER */
-        footer {
-            background: var(--card-bg);
-            padding: 3rem 1rem;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .social-links {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
-            align-items: center;
-        }
-
-        .social-links a {
-            color: var(--text-light);
-            font-size: 1rem;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 30px;
-            width: fit-content;
-        }
-
-        .instagram-icon {
-            width: 20px;
-            height: 20px;
-            background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
-            border-radius: 5px;
-            display: inline-block;
-            position: relative;
-            flex-shrink: 0;
-        }
-
-        .instagram-icon::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 10px;
-            height: 10px;
-            border: 2px solid white;
-            border-radius: 50%;
-        }
-
-        .instagram-icon::after {
-            content: '';
-            position: absolute;
-            top: 3px;
-            right: 3px;
-            width: 3px;
-            height: 3px;
-            background: white;
-            border-radius: 50%;
-        }
-
-        .footer-text {
-            color: var(--text-gray);
-            font-size: 0.85rem;
-            line-height: 1.6;
-        }
-
-        .heartbeat {
-            color: var(--neon-pink);
-            animation: heartbeat 1.5s ease-in-out infinite;
-            display: inline-block;
-        }
-
-        /* MEDIA QUERIES - TABLET Y DESKTOP */
-        @media (min-width: 640px) {
-            .months-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .workshops-grid,
-            .team-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .services-grid,
-            .rules-grid,
-            .pricing-cards,
-            .contact-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .social-links {
-                flex-direction: row;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
-
-            .carousel-slide {
-                padding: 3rem 2rem;
-                min-height: 350px;
-            }
-        }
-
-        @media (min-width: 768px) {
-            .menu-toggle {
-                display: none;
-            }
-
-            .nav-links {
-                display: flex !important;
-                position: static;
-                flex-direction: row;
-                width: auto;
-                background: transparent;
-                padding: 0;
-                gap: 1.5rem;
-            }
-
-            nav {
-                justify-content: center;
-                padding: 1rem 2rem;
-            }
-
-            nav a {
-                padding: 0.5rem 0;
-                font-size: 0.85rem;
-            }
-
-            nav a:hover {
-                background: transparent;
-            }
-
-            section {
-                padding: 5rem 2rem;
-            }
-
-            .months-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .pricing-card.featured {
-                transform: scale(1.05);
-                order: 0;
-            }
-
-            .carousel-prev, .carousel-next {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-            }
-
-            .carousel-prev { left: 20px; }
-            .carousel-next { right: 20px; }
-        }
-
-        @media (min-width: 1024px) {
-            .services-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .rules-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .pricing-cards {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .contact-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .months-grid {
-                grid-template-columns: repeat(5, 1fr);
-            }
-        }
-
-        /* UTILIDADES */
-        .text-center { text-align: center; }
-        .mb-1 { margin-bottom: 0.5rem; }
-        .mb-2 { margin-bottom: 1rem; }
-        .mt-2 { margin-top: 1rem; }
-
-        /* SCROLLBAR */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--dark-bg);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--neon-pink);
-            border-radius: 4px;
-        }
-
-        /* REDUCIR ANIMACIONES PARA USUARIOS QUE LO PREFIEREN */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-    </style>
-<base target="_blank">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Dilo con Movimiento | Escuela de Circo & Estudio Corporal</title>
+  <meta name="description" content="Breaking y Lira Aérea en Santiago. Metodología progresiva, cupos limitados (8 por taller). Calendario 2026, estructura de clases, aranceles, recursos de aprendizaje. ¡Inscríbete ahora!">
+  <!-- Google Fonts + Font Awesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0A0A0A;
+      color: #EDEDED;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    h1, h2, h3 {
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    h2 {
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      display: inline-block;
+    }
+    h2:after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: #F5B042;
+      border-radius: 4px;
+    }
+    .section {
+      padding: 80px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    /* Header / Nav */
+    header {
+      background: rgba(10, 10, 10, 0.96);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(245, 176, 66, 0.3);
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 24px;
+      max-width: 1400px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .logo {
+      font-size: 1.7rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #F5B042, #FFD966);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.2s;
+      font-size: 0.95rem;
+    }
+    .nav-links a:hover {
+      color: #F5B042;
+    }
+    /* Botón servicios actualizado con nueva URL */
+    .btn-servicios-nav {
+      background: #F5B042;
+      color: #0A0A0A !important;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-weight: 700;
+      transition: 0.2s;
+      box-shadow: 0 2px 8px rgba(245,176,66,0.3);
+    }
+    .btn-servicios-nav:hover {
+      background: #ffbe4d;
+      transform: scale(0.98);
+    }
+    /* Hero */
+    .hero {
+      padding: 80px 24px 100px;
+      text-align: center;
+      background: radial-gradient(circle at 20% 30%, #1a1a1a, #030303);
+    }
+    .hero h1 {
+      font-size: 3.3rem;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: #ccc;
+      max-width: 700px;
+      margin: 0 auto 1rem;
+    }
+    .hero-buttons {
+      margin-top: 2rem;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary, .btn-secondary {
+      padding: 12px 32px;
+      border-radius: 40px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: 0.2s;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: #F5B042;
+      color: #0A0A0A;
+      box-shadow: 0 4px 12px rgba(245,176,66,0.3);
+    }
+    .btn-primary:hover {
+      background: #ffbe4d;
+      transform: translateY(-3px);
+    }
+    .btn-secondary {
+      border: 2px solid #F5B042;
+      color: #F5B042;
+    }
+    .btn-secondary:hover {
+      background: #F5B04220;
+      transform: translateY(-3px);
+    }
+    /* Grids y efecto hover universal */
+    .card-curso, .semestre, .arancel-card, .perfil, .material-box, .dilo-block, .tabla-horarios, .normas-lista, .aprendizajes, .inscripcion-destacada, .promo {
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.2s;
+    }
+    .card-curso:hover, .semestre:hover, .arancel-card:hover, .perfil:hover, .material-box:hover, .dilo-block:hover, .normas-lista:hover, .aprendizajes:hover, .inscripcion-destacada:hover, .promo:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.5);
+      border-color: #F5B042;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+      margin-top: 20px;
+    }
+    .card-curso {
+      background: #111111;
+      border-radius: 32px;
+      padding: 32px;
+      border: 1px solid #2a2a2a;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    .card-curso h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: #F5B042;
+    }
+    .curso-lista {
+      margin: 20px 0;
+      padding-left: 20px;
+    }
+    .curso-lista li {
+      margin: 8px 0;
+    }
+    .btn-whatsapp {
+      display: inline-block;
+      margin-top: 20px;
+      background: #25D366;
+      color: #000;
+      padding: 10px 24px;
+      border-radius: 40px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: 0.2s;
+      border: none;
+      font-size: 0.9rem;
+    }
+    .btn-whatsapp i {
+      margin-right: 8px;
+    }
+    .btn-whatsapp:hover {
+      background: #20b859;
+      transform: scale(1.02);
+    }
+    .social-profesor {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #1e1e1e;
+      padding: 6px 14px;
+      border-radius: 40px;
+      margin-top: 12px;
+      margin-right: 10px;
+      text-decoration: none;
+      color: #ccc;
+      font-size: 0.85rem;
+      transition: 0.2s;
+    }
+    .social-profesor i {
+      color: #F5B042;
+    }
+    .social-profesor:hover {
+      background: #F5B042;
+      color: #000;
+    }
+    .aprendizajes {
+      background: #0e0e0e;
+      border-radius: 28px;
+      padding: 28px;
+      margin-top: 48px;
+      text-align: center;
+      border-left: 5px solid #F5B042;
+    }
+    /* Calendario */
+    .calendario-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: space-between;
+    }
+    .semestre {
+      background: #111;
+      border-radius: 28px;
+      padding: 24px;
+      flex: 1;
+      min-width: 260px;
+      border: 1px solid #2a2a2a;
+    }
+    .semestre h3 {
+      color: #F5B042;
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+    }
+    .lista-fechas {
+      list-style: none;
+    }
+    .lista-fechas li {
+      margin-bottom: 8px;
+    }
+    .inscripcion-destacada {
+      background: #F5B04220;
+      border-left: 4px solid #F5B042;
+      padding: 16px;
+      border-radius: 20px;
+      margin-top: 24px;
+    }
+    /* Estructura clases */
+    .tabla-horarios {
+      background: #111;
+      border-radius: 28px;
+      overflow-x: auto;
+      border: 1px solid #2a2a2a;
+    }
+    .tabla-horarios table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .tabla-horarios th, .tabla-horarios td {
+      padding: 16px 20px;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .tabla-horarios th {
+      background: #1a1a1a;
+      color: #F5B042;
+    }
+    /* Aranceles */
+    .aranceles-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+    .arancel-card {
+      background: #111;
+      border-radius: 32px;
+      padding: 28px;
+      flex: 1;
+      min-width: 220px;
+      text-align: center;
+      border: 1px solid #2a2a2a;
+    }
+    .precio-grande {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #F5B042;
+      margin: 16px 0;
+    }
+    .promo {
+      background: #F5B04220;
+      border-radius: 24px;
+      padding: 16px;
+      text-align: center;
+      margin-top: 20px;
+    }
+    /* Recursos de aprendizaje */
+    .material-box {
+      background: linear-gradient(145deg, #111, #0a0a0a);
+      border-radius: 32px;
+      padding: 32px;
+      text-align: center;
+      border: 1px solid #F5B04240;
+    }
+    .material-input {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .material-input input {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      padding: 14px 20px;
+      border-radius: 60px;
+      color: white;
+      width: 260px;
+    }
+    .btn-ingresar {
+      background: #F5B042;
+      border: none;
+      padding: 12px 32px;
+      border-radius: 60px;
+      font-weight: 700;
+      color: #0A0A0A;
+      cursor: pointer;
+    }
+    .implementos {
+      margin-top: 28px;
+      background: #0c0c0c;
+      border-radius: 28px;
+      padding: 20px;
+      text-align: center;
+      font-weight: 500;
+    }
+    /* Perfiles */
+    .perfiles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: center;
+    }
+    .perfil {
+      background: #111;
+      border-radius: 32px;
+      padding: 28px;
+      flex: 1;
+      min-width: 250px;
+      border: 1px solid #2a2a2a;
+    }
+    .perfil h3 {
+      font-size: 1.7rem;
+      color: #F5B042;
+    }
+    /* Dilo con movimiento bloque */
+    .dilo-block {
+      background: linear-gradient(145deg, #0F0F0F, #070707);
+      border-radius: 48px;
+      padding: 48px 32px;
+      margin: 40px 0;
+      text-align: center;
+      border: 1px solid #2a2a2a;
+    }
+    .btn-dilo {
+      background: #1e1e1e;
+      padding: 12px 28px;
+      border-radius: 60px;
+      color: #F5B042;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.2s;
+      border: 1px solid #F5B04240;
+      display: inline-block;
+    }
+    .btn-dilo:hover {
+      background: #F5B042;
+      color: #000;
+    }
+    footer {
+      padding: 40px 24px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .social-links a {
+      color: #ccc;
+      margin: 0 12px;
+      font-size: 1.3rem;
+      transition: 0.2s;
+      text-decoration: none;
+    }
+    .social-links a:hover {
+      color: #F5B042;
+    }
+    @media (max-width: 780px) {
+      .navbar {
+        flex-direction: column;
+      }
+      h2 {
+        font-size: 1.8rem;
+      }
+      .hero h1 {
+        font-size: 2.4rem;
+      }
+    }
+    .badge-cupos {
+      background: #F5B042;
+      color: #000;
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+  </style>
 </head>
 <body>
-    <div class="bg-animation"></div>
 
-    <nav>
-        <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        <div class="nav-links" id="navLinks">
-            <a href="#inicio">Inicio</a>
-            <a href="#calendario">Calendario</a>
-            <a href="#horario">Horario</a>
-            <a href="#cursos">Cursos</a>
-            <a href="#servicios">Servicios</a>
-            <a href="#equipo">Equipo</a>
-            <a href="#normas">Normas</a>
-            <a href="#precios">Precios</a>
-            <a href="#materiales">Materiales</a>
-            <a href="#contacto">Contacto</a>
+<header>
+  <div class="navbar">
+    <div class="logo">DILO CON MOVIMIENTO</div>
+    <div class="nav-links">
+      <a href="#cursos">Cursos</a>
+      <a href="#calendario">Calendario</a>
+      <a href="#estructura">Estructura</a>
+      <a href="#aranceles">Planes</a>
+      <a href="#equipo">Equipo</a>
+      <a href="#recursos">Recursos</a>
+      <!-- URL del botón Servicios actualizada -->
+      <a href="https://danyeltrainer.github.io/Servicios-Dilo-Con-Movimiento/" class="btn-servicios-nav">Servicios</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>Dilo con Movimiento</h1>
+    <p>Escuela de Circo Urbano · Estudio de Movimiento Humano</p>
+    <p>Breaking | Lira Aérea | Metodología progresiva · Cupos limitados (8 por taller)</p>
+    <div class="hero-buttons">
+      <a href="#cursos" class="btn-primary">Quiero mi clase</a>
+      <a href="#aranceles" class="btn-secondary">Ver precios</a>
+    </div>
+  </section>
+
+  <!-- CURSOS: LIRA y BREAKING -->
+  <div class="container" id="cursos">
+    <div class="section">
+      <h2>Cursos 2026</h2>
+      <div class="grid-2">
+        <!-- LIRA -->
+        <div class="card-curso">
+          <div class="badge-cupos"><i class="fas fa-users"></i> Solo 8 cupos por taller</div>
+          <h3><i class="fas fa-circle-notch"></i> 🌀 Lira + Acrobacia Aérea</h3>
+          <p><strong>Profe Kari</strong> · Escuela de Circo Urbano · Desarrollo de habilidades aéreas</p>
+          <ul class="curso-lista">
+            <li>Desarrolla mecánicas funcionales, eficiencia biomecánica y encuentra tu propio estilo</li>
+            <li>Metodología progresiva para personas sin experiencia previa hasta niveles avanzados</li>
+            <li>Fortalecimiento, flexibilidad y creatividad en el arco</li>
+            <li>Enfoque en seguridad y progresión consciente</li>
+          </ul>
+          <p><strong>📅 Sábados 11:00 a 14:00 hrs</strong><br>
+          📍 Sede Comunitaria, Portales 1095, El Bosque<br>
+          🎟️ <strong>Valor por clase suelta:</strong> $4.000 efectivo / $6.000 transferencia</p>
+          <div>
+            <a href="https://wa.me/56987053650?text=Hola%2C%20vengo%20desde%20la%20p%C3%A1gina%20web%20y%20quiero%20consultar%20por%20cupos%20para%20Lira%20los%20s%C3%A1bados%20de%2011%20a%2014%20hrs." target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> Consultar disponibilidad</a>
+            <a href="https://instagram.com/lakari.silvestre" target="_blank" class="social-profesor"><i class="fab fa-instagram"></i> @lakari.silvestre</a>
+          </div>
         </div>
-    </nav>
-
-    <header id="inicio">
-        <h1 class="logo">DILO CON MOVIMIENTO</h1>
-        <p class="subtitle">Escuela de Circo Urbano</p>
-        <p class="tagline">Segundo Año Académico 2026<br>Integrando Breaking y Lira con aprendizajes transversales para un desarrollo integral en movimiento</p>
-        
-        <a href="#contacto" class="cta-button">Únete al Movimiento</a>
-    </header>
-
-    <section style="padding-top: 1rem;">
-        <h2>🔥 Servicios destacados</h2>
-        <div class="carousel">
-            <div class="carousel-container" id="carouselContainer">
-                <div class="carousel-slide">
-                    <h3>Breaking</h3>
-                    <p>Clases grupales sábados con Profe Dany<br>Potencia tu estilo y domina el piso</p>
-                    <a href="#cursos" class="carousel-button">Más info</a>
-                </div>
-                <div class="carousel-slide">
-                    <h3>Lira (Aro Aéreo)</h3>
-                    <p>Clases grupales sábados con Profe Kari<br>Vuela y desarrolla tu fuerza</p>
-                    <a href="#cursos" class="carousel-button">Más info</a>
-                </div>
-                <div class="carousel-slide">
-                    <h3>Lira Personalizada</h3>
-                    <p>Clases individuales o grupales a tu ritmo<br>Ideal para profundizar</p>
-                    <a href="#servicios" class="carousel-button">Consultar</a>
-                </div>
-                <div class="carousel-slide">
-                    <h3>Dancehall</h3>
-                    <p>Con Profe Liss en San Bernardo<br>Ritmo y actitud</p>
-                    <a href="#servicios" class="carousel-button">Ver servicios</a>
-                </div>
-                <div class="carousel-slide">
-                    <h3>Acrobacias</h3>
-                    <p>Entrenamiento acrobático los jueves<br>Base para todo movimiento</p>
-                    <a href="#servicios" class="carousel-button">Ver más</a>
-                </div>
-            </div>
-            <button class="carousel-prev" id="prevBtn" aria-label="Anterior">❮</button>
-            <button class="carousel-next" id="nextBtn" aria-label="Siguiente">❯</button>
+        <!-- BREAKING -->
+        <div class="card-curso">
+          <div class="badge-cupos"><i class="fas fa-users"></i> Solo 8 cupos por taller</div>
+          <h3><i class="fas fa-head-side-music"></i> 🎧 Breaking | Breakdance</h3>
+          <p><strong>Profe Dany</strong> · Escuela de Circo Urbano · Expresión corporal escénica</p>
+          <ul class="curso-lista">
+            <li>Fundamentos de powermoves, footwork, freezes y toprock</li>
+            <li>Rutinas de acondicionamiento específico para breaking</li>
+            <li>Metodología progresiva desde cero hasta niveles avanzados</li>
+            <li>Desarrolla fuerza, control y estilo personal</li>
+          </ul>
+          <p><strong>📅 Sábados 11:00 a 14:00 hrs</strong><br>
+          📍 Sede Comunitaria, Portales 1095, El Bosque<br>
+          🎟️ <strong>Valor por clase suelta:</strong> $4.000 efectivo / $6.000 transferencia</p>
+          <div>
+            <a href="https://wa.me/56935541341?text=Hola%2C%20vengo%20desde%20la%20p%C3%A1gina%20y%20quiero%20consultar%20por%20Breaking%20(breakdance)%20los%20s%C3%A1bados%20de%2011%20a%2014%20hrs." target="_blank" class="btn-whatsapp"><i class="fab fa-whatsapp"></i> Reservar cupo</a>
+            <a href="https://instagram.com/dany.el.trainer" target="_blank" class="social-profesor"><i class="fab fa-instagram"></i> @dany.el.trainer</a>
+          </div>
         </div>
-        <div class="carousel-dots" id="carouselDots"></div>
-    </section>
+      </div>
+      <div class="aprendizajes">
+        <p><strong>⚡ Aprendizajes transversales ⚡</strong><br>
+        Biomecánica aplicada · Movilidad funcional · Rendimiento consciente · Prevención de lesiones · Comunidad de apoyo mutuo · Metodología progresiva en todas las disciplinas.</p>
+      </div>
+    </div>
+  </div>
 
-    <section style="padding-top: 0;">
-        <div class="promo-banner">
-            <h3>📢 Promos y noticias</h3>
-            <p>Entérate de ofertas, eventos, talleres intensivos y mucho más. ¡Únete a nuestra comunidad de WhatsApp!</p>
-            <a href="https://chat.whatsapp.com/Fv0KSE9euwkBzCTHk4KdpT" target="_blank" rel="noopener noreferrer" class="promo-button">Unirme al canal</a>
+  <!-- CALENDARIO ACADÉMICO -->
+  <div class="container" id="calendario">
+    <div class="section">
+      <h2>Calendario académico 2026</h2>
+      <div class="calendario-grid">
+        <div class="semestre">
+          <h3>📅 Primer Semestre (Marzo - Julio)</h3>
+          <ul class="lista-fechas">
+            <li><strong>Marzo:</strong> 8, 14, 21, 28 (8 de marzo DOMINGO)</li>
+            <li><strong>Abril:</strong> 11, 18, 25</li>
+            <li><strong>Mayo:</strong> 2, 9, 16, 23, 30 <span style="color:#F5B042;">(2 de mayo añadido)</span></li>
+            <li><strong>Junio:</strong> 6, 13, 20, 27</li>
+            <li><strong>Julio:</strong> 4, 11, 18, 25 (25 julio última clase)</li>
+          </ul>
         </div>
-    </section>
-
-    <section id="calendario">
-        <h2>📅 Calendario Académico 2026</h2>
-        
-        <div class="semester">
-            <h3 class="semester-title">Primer Semestre (Marzo - Julio)</h3>
-            <div class="months-grid">
-                <div class="month-card">
-                    <div class="month-name">Marzo</div>
-                    <div class="dates">8, 14, 21, 28</div>
-                    <div class="special-note">⚠️ 8 de marzo es DOMINGO (solo esta vez)</div>
-                </div>
-                <div class="month-card">
-                    <div class="month-name">Abril</div>
-                    <div class="dates">11, 18, 25</div>
-                </div>
-                <div class="month-card">
-                    <div class="month-name">Mayo</div>
-                    <div class="dates">9, 16, 23, 30</div>
-                </div>
-                <div class="month-card">
-                    <div class="month-name">Junio</div>
-                    <div class="dates">6, 13, 20, 27</div>
-                </div>
-                <div class="month-card">
-                    <div class="month-name">Julio</div>
-                    <div class="dates">4, 11, 18, 25</div>
-                    <div class="special-note">🎓 25 de julio: Última clase del semestre</div>
-                </div>
-            </div>
+        <div class="semestre">
+          <h3>📅 Segundo Semestre (Agosto - Diciembre)</h3>
+          <ul class="lista-fechas">
+            <li><strong>Agosto:</strong> 8, 15, 22, 29</li>
+            <li><strong>Septiembre:</strong> 5, 12, 26</li>
+            <li><strong>Octubre:</strong> 3, 17, 24, 31</li>
+            <li><strong>Noviembre:</strong> 7, 14, 21, 28</li>
+            <li><strong>Diciembre:</strong> 5, 12, 19 (19 diciembre clase del año)</li>
+          </ul>
         </div>
+      </div>
+      <div class="inscripcion-destacada">
+        <p><strong>📢 Inscripciones Segundo Semestre:</strong> Del 16 de julio al 5 de agosto · Reserva tu cupo a tiempo, solo 8 cupos por taller.</p>
+        <p><i class="fas fa-map-marker-alt"></i> Sede Escuela (sábados): Sede Comunitaria Los Sauces, Portales 1095, El Bosque · Edad: desde 12 años (excepciones estudiantes antiguos).</p>
+      </div>
+    </div>
+  </div>
 
-        <div class="semester">
-            <h3 class="semester-title">Segundo Semestre (Agosto - Diciembre)</h3>
-            <div class="months-grid">
-                <div class="month-card">
-                    <div class="month-name">Agosto</div>
-                    <div class="dates">8, 15, 22, 29</div>
-                </div>
-                <div class="month-card">
-                    <div class="month-name">Septiembre</div>
-                    <div class="dates">5, 12, 26</div>
-                </div>
-                <div class="month-card">
-                    <div class="month-name">Octubre</div>
-                    <div class="dates">3, 17, 24, 31</div>
-                </div>
-                <div class="month-card">
-                    <div class="month-name">Noviembre</div>
-                    <div class="dates">7, 14, 21, 28</div>
-                </div>
-                <div class="month-card">
-                    <div class="month-name">Diciembre</div>
-                    <div class="dates">5, 12, 19</div>
-                    <div class="special-note">🎓 19 de diciembre: Cierre del año</div>
-                </div>
-            </div>
+  <!-- ESTRUCTURA DE CLASES -->
+  <div class="container" id="estructura">
+    <div class="section">
+      <h2>Estructura de clases (Sábados 11:00 a 14:00 hrs)</h2>
+      <div class="tabla-horarios">
+        <table>
+          <thead>
+            <tr><th>Horario</th><th>Actividad</th><th>Descripción</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>11:00 - 11:30</td><td>Bienvenida y Calentamiento</td><td>Ambos cursos juntos. Prevención de lesiones y preparación física fundamentada.</td></tr>
+            <tr><td>11:35 - 12:00</td><td>Bloque Base</td><td>Expresión corporal y/o preacrobáticos. Bases expresivas integradas.</td></tr>
+            <tr><td>12:00 - 13:20</td><td>Clase Regular por Curso</td><td>Breaking con Profe Dany / Lira con Profe Kari</td></tr>
+            <tr><td>13:20 - 13:30</td><td>Feedback y Vuelta a la Calma</td><td>Reflexión grupal y cierre de la sesión</td></tr>
+            <tr><td>13:30 - 14:00</td><td>Entrenamiento Libre</td><td>Práctica autónoma supervisada</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARANCELES -->
+  <div class="container" id="aranceles">
+    <div class="section">
+      <h2>Aranceles 2026</h2>
+      <div class="aranceles-container">
+        <div class="arancel-card">
+          <h3>🎓 RECOMENDADO</h3>
+          <p><strong>SEMESTRAL (Escuela de Circo Urbano)</strong></p>
+          <div class="precio-grande">$50.000</div>
+          <p>efectivo · <span style="text-decoration:line-through;">$60.000</span> transferencia</p>
+          <p>Mejor valor por 6 meses</p>
         </div>
-
-        <div class="inscription-note">
-            <strong style="color: var(--neon-pink); display: block; margin-bottom: 0.5rem; font-size: 1.1rem;">📝 Inscripciones Segundo Semestre</strong>
-            <p>Del 16 de julio al 5 de agosto<br>Reserva tu cupo a tiempo, son solo 8 cupos por taller</p>
+        <div class="arancel-card">
+          <h3>📆 MENSUAL</h3>
+          <p><strong>Escuela de Circo Urbano</strong></p>
+          <div class="precio-grande">$12.000</div>
+          <p>efectivo · $15.000 transferencia</p>
+          <p>Flexibilidad mes a mes</p>
         </div>
-
-        <div class="card" style="margin-top: 1.5rem;">
-            <strong style="color: var(--neon-blue); display: block; margin-bottom: 0.5rem;">📍 Sede Escuela (sábados):</strong> 
-            <p class="mb-1">Sede Comunitaria Los Sauces, Portales 1095, El Bosque</p>
-            <strong style="color: var(--neon-pink); display: block; margin: 0.75rem 0 0.25rem;">🎟️ Cupos:</strong> 
-            <p class="mb-1">Solo 8 personas por taller</p>
-            <strong style="color: var(--neon-purple); display: block; margin: 0.75rem 0 0.25rem;">👥 Edad:</strong> 
-            <p>Desde 12 años (excepciones solo para estudiantes antiguos)</p>
-            <a href="https://www.canva.com/design/DAHBzHmOp8A/fsZLCp5c0FH2inswkbuHQw/edit" target="_blank" rel="noopener noreferrer" class="location-link">
-                📍 Ver ubicación de la sede
-            </a>
+        <div class="arancel-card">
+          <h3>🎟️ CLASE SUELTA</h3>
+          <p><strong>Aplica a Lira, Breaking, Acrobacias, Dancehall</strong></p>
+          <div class="precio-grande">$4.000</div>
+          <p>efectivo · $6.000 transferencia</p>
+          <p>Paga por clase</p>
         </div>
-    </section>
+      </div>
+      <div class="promo">
+        <p><i class="fas fa-gift"></i> <strong>Promoción especial:</strong> Tu primer pago mensual por transferencia tiene el valor de efectivo ($12.000) ¡Aprovecha!</p>
+        <p style="margin-top: 12px;">Forma de pago: Antes de comenzar el mes/semestre o durante la primera clase. No se aceptan pagos pendientes.</p>
+      </div>
+    </div>
+  </div>
 
-    <section id="horario">
-        <h2>⏰ Estructura de Clases</h2>
-        <p style="text-align: center; color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.95rem;">Sábados de 11:00 a 14:00 hrs (excepto primera clase: domingo 8 marzo)</p>
-        
-        <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
-            <table class="schedule-table">
-                <thead>
-                    <tr>
-                        <th>Horario</th>
-                        <th>Actividad</th>
-                        <th>Descripción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="time">11:00 - 11:30</td>
-                        <td>Bienvenida y Calentamiento</td>
-                        <td>Ambos cursos juntes. Prevención de lesiones y preparación física fundamentada científicamente</td>
-                    </tr>
-                    <tr>
-                        <td class="time">11:35 - 12:00</td>
-                        <td>Bloque Base</td>
-                        <td>Expresión corporal y/o preacrobáticos. Bases expresivas integradas con preparación física preventiva</td>
-                    </tr>
-                    <tr>
-                        <td class="time">12:00 - 13:20</td>
-                        <td>Clase Regular por Curso</td>
-                        <td>Breaking con Profe Dany / Lira con Profe Kari</td>
-                    </tr>
-                    <tr>
-                        <td class="time">13:20 - 13:30</td>
-                        <td>Feedback y Vuelta a la Calma</td>
-                        <td>Reflexión grupal y cierre de la sesión</td>
-                    </tr>
-                    <tr>
-                        <td class="time">13:30 - 14:00</td>
-                        <td>Entrenamiento Libre</td>
-                        <td>Práctica autónoma supervisada</td>
-                    </tr>
-                </tbody>
-            </table>
+  <!-- RECURSOS DE APRENDIZAJE + IMPLEMENTOS -->
+  <div class="container" id="recursos">
+    <div class="section">
+      <h2>Recursos de aprendizaje</h2>
+      <div class="material-box">
+        <p><strong>📚 ACCESO EXCLUSIVO PARA ESTUDIANTES</strong></p>
+        <p>Ingresa tu correo y contraseña para acceder a guías, secuencias y material didáctico.</p>
+        <div class="material-input">
+          <input type="email" placeholder="Tu correo electrónico" id="emailMaterial">
+          <input type="password" placeholder="Contraseña" id="passMaterial">
+          <button class="btn-ingresar" id="btnMaterial"><i class="fas fa-key"></i> Ingresar</button>
         </div>
-    </section>
-
-    <section id="cursos">
-        <h2>🎪 Cursos de la Escuela</h2>
-        <p style="text-align: center; color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.95rem;">Nuestra oferta formativa principal en circo urbano</p>
-        
-        <div class="workshops-grid">
-            <div class="workshop-card">
-                <h3 class="workshop-title" style="color: var(--neon-pink);">BREAKING</h3>
-                <p class="professor">Profe Dany @dany.el.trainer</p>
-                <ul class="workshop-content">
-                    <li>Powermoves</li>
-                    <li>Freezes</li>
-                    <li>Footwork</li>
-                    <li>Secuencias acrobáticas de piso</li>
-                    <li>Preparación física específica</li>
-                    <li>Activación según contenido de sesión</li>
-                </ul>
-            </div>
-
-            <div class="workshop-card">
-                <h3 class="workshop-title" style="color: var(--neon-blue);">LIRA (Aerial Hoop)</h3>
-                <p class="professor">Profe Kari @lakari.silvestre</p>
-                <ul class="workshop-content">
-                    <li>Exploración del aparato aéreo</li>
-                    <li>Progresiones seguras con fundamentos metodológicos</li>
-                    <li>Figuras y posturas</li>
-                    <li>Secuencias</li>
-                    <li>Entradas y salidas</li>
-                    <li>Activación específica para autodesarrollo</li>
-                </ul>
-            </div>
+        <div class="implementos">
+          <p><i class="fas fa-dumbbell"></i> <strong>Implementos disponibles en la escuela:</strong> Tatamis, colchonetas de diversas medidas, airtracks, liras con mosquetones giratorios, eslingas, tela aérea, anillas de gimnasia, bloques de mat. Todo para entrenar con seguridad y progresión.</p>
         </div>
+      </div>
+    </div>
+  </div>
 
-        <div class="card" style="margin-top: 2rem;">
-            <h3 style="color: var(--neon-purple); margin-bottom: 1rem;">🤸 Aprendizajes Transversales (Bloque Base)</h3>
-            <p style="margin-bottom: 0.75rem;">Compartidos por ambos cursos para un desarrollo integral:</p>
-            <ul style="margin-left: 1.25rem; line-height: 1.8; font-size: 0.95rem;">
-                <li>Preacrobáticos y acrobacias de piso básicas</li>
-                <li>Mano a mano: secuencias grupales desde breaking y circo</li>
-                <li>Preparación física básica y específica</li>
-                <li>Expresión corporal: manejo del pánico escénico, miradas, puesta en escena</li>
-                <li>Actitud y disfrute: lo más importante de todo el proceso</li>
-            </ul>
+  <!-- QUIÉNES SOMOS -->
+  <div class="container" id="equipo">
+    <div class="section">
+      <h2>Quiénes Somos</h2>
+      <div class="perfiles">
+        <div class="perfil">
+          <h3>Karina Acuña</h3>
+          <p><strong>Profesora de Lira y movimiento aéreo</strong></p>
+          <p>Terapeuta Ocupacional, atleta desde 2020. Especialista en lira con metodología progresiva. Actualmente levanta <strong>18 kg de lastre en pull ups</strong>. Además entrena mano a mano y figuras grupales.</p>
         </div>
-    </section>
-
-    <section id="servicios">
-        <h2>🌟 Servicios Profesionales</h2>
-        <p style="text-align: center; color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.95rem;">Clases, talleres y entrenamientos para todos los niveles</p>
-        
-        <div class="services-grid">
-            <div class="service-card">
-                <div class="service-name">🤸 Entrenamiento Acrobático</div>
-                <div class="service-executor">Ejecuta: Profe Dany</div>
-                <div class="service-description">
-                    Desde lo más básico hasta secuencias complejas. Contamos con colchonetones, tatamis y airtrack. 
-                    Ideal para complementar tu práctica de breaking o circo. Días jueves.
-                </div>
-                <a href="https://chat.whatsapp.com/DX6IY4INawE54PQiyqLeS4" target="_blank" rel="noopener noreferrer" class="service-link">Únete al grupo WhatsApp →</a>
-            </div>
-
-            <div class="service-card">
-                <div class="service-name">💪 Entrenamiento Personalizado</div>
-                <div class="service-executor">Ejecuta: Profe Dany</div>
-                <div class="service-description">
-                    Clases 1 a 1 o grupales (sincrónicas/asincrónicas). Diseñamos un plan adaptado a tus metas: 
-                    fuerza, flexibilidad, acrobacias o acondicionamiento físico.
-                </div>
-                <a href="https://wa.me/c/56935541341" target="_blank" rel="noopener noreferrer" class="service-link">Ver catálogo WhatsApp →</a>
-            </div>
-
-            <div class="service-card">
-                <div class="service-name">🏋️ Calistenia Plaza San Lucas</div>
-                <div class="service-executor">Ejecuta: Profe Dany</div>
-                <div class="service-description">
-                    Entrenamiento al aire libre en Lo Espejo. Mejora tu fuerza, control corporal y domina la barra 
-                    en un ambiente comunitario y motivador.
-                </div>
-                <a href="https://www.instagram.com/activa.tuplaza.libresanlucas/" target="_blank" rel="noopener noreferrer" class="service-link">@activa.tuplaza.libresanlucas →</a>
-            </div>
-
-            <div class="service-card">
-                <div class="service-name">💃 Dancehall (Profe Liss)</div>
-                <div class="service-executor">Ejecuta: Profe Liss (Lisset)</div>
-                <div class="service-description">
-                    Clases en <strong>Luis Alberto Heiremans Sur 1382, San Bernardo</strong>. Espacio exclusivo para mujeres. 
-                    Ritmo, actitud y coreografías para soltar el cuerpo y divertirte.
-                </div>
-                <a href="https://www.instagram.com/equilibriodesiquilibrado/" target="_blank" rel="noopener noreferrer" class="service-link">@equilibriodesiquilibrado →</a>
-            </div>
-
-            <div class="service-card">
-                <div class="service-name">🧠 Psicología Integral</div>
-                <div class="service-executor">Ejecuta: PS Sthefanie</div>
-                <div class="service-description">
-                    Acompañamiento psicológico con enfoque en bienestar emocional y desarrollo personal. 
-                    Parte de nuestro equipo organizativo.
-                </div>
-                <a href="https://www.instagram.com/psicosthefi/" target="_blank" rel="noopener noreferrer" class="service-link">@psicosthefi →</a>
-            </div>
-
-            <div class="service-card">
-                <div class="service-name">🎪 Lira + Acrobacia Aérea</div>
-                <div class="service-executor">Ejecuta: Profe Kari</div>
-                <div class="service-description">
-                    Clases personalizadas o grupales (máx 4 personas) en horarios a convenir. 
-                    Perfecciona tu técnica, gana altura y creatividad en el aro.
-                </div>
-                <a href="https://wa.me/56987053650" target="_blank" rel="noopener noreferrer" class="service-link">Consultar disponibilidad →</a>
-            </div>
-
-            <div class="service-card">
-                <div class="service-name">🔥 Acrobacias & Breaking Personalizado</div>
-                <div class="service-executor">Ejecuta: Profe Dany</div>
-                <div class="service-description">
-                    Entrenamiento 1 a 1 enfocado en tus metas: powermoves, freezes, acrobacias de piso, 
-                    o preparación física para circo. ¡Avanza a tu ritmo!
-                </div>
-                <a href="https://wa.me/56935541341" target="_blank" rel="noopener noreferrer" class="service-link">Agenda tu sesión →</a>
-            </div>
-
-            <div class="service-card">
-                <div class="service-name">📅 Workshops Intensivos</div>
-                <div class="service-executor">Ejecutan: Equipo Dilo con Movimiento</div>
-                <div class="service-description">
-                    Talleres de acrobacias, lira, dancehall, prevención de lesiones, entrenamiento funcional 
-                    y desarrollo integral. Fechas puntuales, ideal para profundizar.
-                </div>
-                <a href="#contacto" class="service-link">Pregunta por próximos workshops →</a>
-            </div>
+        <div class="perfil">
+          <h3>Daniel Henríquez</h3>
+          <p><strong>Profesor de Breaking, Acrobacias y Firestaff</strong></p>
+          <p>Preparador Físico, +10 años de experiencia. Sus <strong>pull ups son con 52 kg de lastre</strong>. Combina fuerza y flow, especialista en breaking y acondicionamiento de alto rendimiento.</p>
         </div>
-
-        <div style="text-align: center; margin-top: 2rem;">
-            <a href="#contacto" class="cta-button" style="margin-top: 0;">📲 Contáctanos para más info</a>
+        <div class="perfil">
+          <h3>Stheffanie Lecaros</h3>
+          <p><strong>Psicóloga · Apoyo en comunicación</strong></p>
+          <p>Stheffanie aporta una mirada estratégica en organización interna y redes sociales. <strong>No brinda servicios de apoyo psicológico</strong> dentro de la escuela, pero es nuestra aliada en comunicación durante 2026.</p>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
 
-    <section id="equipo">
-        <h2>👥 Quienes Somos</h2>
-        <p style="text-align: center; color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.95rem;">Facilitadores y cofundadores de la Escuela de Circo Urbano</p>
-        
-        <div class="team-grid">
-            <div class="team-card">
-                <div class="team-name">Karina Acuña</div>
-                <div class="team-role">Profesora de Lira</div>
-                <div class="team-bio">
-                    Terapeuta Ocupacional de profesión, atleta desde 2020 y facilitadora de circo desde 2023. 
-                    Especialista en lira aérea con enfoque metodológico y progresiones seguras. 
-                    Además de enseñar, sigue entrenando y actualmente levanta <strong>18 kg de lastre en pull ups</strong> 
-                    (sí, con unos lentes bien puestos 😎). Practicante de mano a mano y figuras grupales, siempre aprendiendo.
-                </div>
-                <span class="team-cofounder">Cofundadora</span>
-            </div>
+  <!-- DILO CON MOVIMIENTO -->
+  <div class="container">
+    <div class="dilo-block">
+      <h2 style="margin-bottom: 16px;">⚡ Dilo con Movimiento ⚡</h2>
+      <p><strong>Estudio de movimiento humano</strong> donde profundizamos en biomecánica, movilidad funcional y rendimiento consciente. <strong>Únete a nuestra comunidad</strong> y descubre talleres exclusivos, clínicas presenciales y entrenamientos integradores que transforman tu manera de moverte.</p>
+      <div style="display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; margin-top: 32px;">
+        <a href="https://instagram.com/dilo.con_movimiento" target="_blank" class="btn-dilo"><i class="fab fa-instagram"></i> Conocer @dilo.con_movimiento</a>
+        <a href="https://chat.whatsapp.com/" target="_blank" class="btn-dilo"><i class="fab fa-whatsapp"></i> Unirse a la comunidad WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</main>
 
-            <div class="team-card">
-                <div class="team-name">Daniel Henríquez</div>
-                <div class="team-role">Profesor de Breaking</div>
-                <div class="team-bio">
-                    Preparador Físico, atleta de acrobacias desde 2011 y tallerista desde 2014. 
-                    Especialista en breaking, firestaff y acrobacias. Para que quede claro quién manda, 
-                    sus <strong>pull ups son con 52 kg de lastre</strong> (😜💪). Eterno aprendiz de mano a mano 
-                    y figuras grupales, combina fuerza y flow en cada clase.
-                </div>
-                <span class="team-cofounder">Cofundador</span>
-            </div>
-        </div>
-    </section>
+<footer>
+  <div class="social-links">
+    <a href="https://instagram.com/dilo.con_movimiento" target="_blank"><i class="fab fa-instagram"></i> @dilo.con_movimiento</a>
+    <a href="https://chat.whatsapp.com/" target="_blank"><i class="fab fa-whatsapp"></i> Comunidad WhatsApp</a>
+  </div>
+  <p style="margin-top: 24px;">© 2026 Dilo con Movimiento · Escuela de Circo Urbano & Estudio Corporal · Cupos limitados, ¡reserva tu lugar!</p>
+  <p style="margin-top: 8px; font-size: 0.75rem;">Clases todos los sábados · Sede Comunitaria Los Sauces, El Bosque · Contáctanos por WhatsApp para asegurar tu cupo.</p>
+</footer>
 
-    <section id="normas">
-        <h2>📜 Normas del Espacio</h2>
-        
-        <div class="rules-grid">
-            <div class="rule-item">
-                <div class="rule-title">⚡ Puntualidad Obligatoria</div>
-                <p style="font-size: 0.9rem; color: var(--text-gray);">Llegar a la hora es fundamental. El calentamiento está diseñado con bases físicas científicas para reducir riesgo de lesiones y optimizar tu desarrollo. Perderlo = riesgo + distracción para el grupo.</p>
-            </div>
+<script>
+  document.getElementById('btnMaterial')?.addEventListener('click', function() {
+    const email = document.getElementById('emailMaterial')?.value;
+    if(email && email.includes('@')) {
+      alert('🔐 Acceso simulado: Recursos exclusivos para estudiantes. Si eres alumno, solicita tus credenciales a tu profesor.');
+    } else {
+      alert('Por favor ingresa un correo válido. Si eres estudiante activo, contáctanos para obtener tu contraseña.');
+    }
+  });
+</script>
 
-            <div class="rule-item" style="border-left-color: var(--neon-blue); background: rgba(0, 245, 255, 0.05);">
-                <div class="rule-title" style="color: var(--neon-blue);">👥 Responsabilidad con Menores</div>
-                <p style="font-size: 0.9rem; color: var(--text-gray);">Si asistes con menores, debes estar mayormente atente. Son espacios acrobáticos de riesgo compartidos. No interrumpas la clase cruzándote con elles; si es necesario, retírales con el cuidado y amor que la infancia merece.</p>
-            </div>
-
-            <div class="rule-item" style="border-left-color: var(--neon-purple); background: rgba(188, 19, 254, 0.05);">
-                <div class="rule-title" style="color: var(--neon-purple);">🤝 Espacio Seguro</div>
-                <p style="font-size: 0.9rem; color: var(--text-gray);">No es un espacio misógino, racista ni violento en ningún sentido. No somos punitivxs, pero preferimos evitar conductas en las que cada persona podría estar trabajando individualmente.</p>
-            </div>
-
-            <div class="rule-item">
-                <div class="rule-title">🧹 Cuidado de Materiales</div>
-                <p style="font-size: 0.9rem; color: var(--text-gray);">Cuida los materiales, el espacio y su limpieza. Si puedes apoyar en la limpieza y orden al finalizar, ¡se agradece mucho! Somos una comunidad.</p>
-            </div>
-
-            <div class="rule-item" style="border-left-color: var(--neon-blue); background: rgba(0, 245, 255, 0.05);">
-                <div class="rule-title" style="color: var(--neon-blue);">🎂 Edad Mínima</div>
-                <p style="font-size: 0.9rem; color: var(--text-gray);">Desde los 12 años. Excepciones únicamente para estudiantes antiguos que ya forman parte de la comunidad.</p>
-            </div>
-
-            <div class="rule-item" style="border-left-color: var(--neon-purple); background: rgba(188, 19, 254, 0.05);">
-                <div class="rule-title" style="color: var(--neon-purple);">💜 Comunidad</div>
-                <p style="font-size: 0.9rem; color: var(--text-gray);">Este es un espacio de apoyo mutuo. El mayor cuidado viene de quien acompaña, pero entre todes nos cuidamos.</p>
-            </div>
-
-            <div class="rule-item" style="grid-column: 1 / -1;">
-                <div class="rule-title">⚠️ Atención: El riesgo es parte del arte</div>
-                <p style="font-size: 0.9rem; color: var(--text-gray); line-height: 1.7;">
-                    Las disciplinas que conyevan acrobácias (nuestras clases: Breaking, Lira, acrobacias, dancehall) son hermosas pero conllevan un riesgo inherente. 
-                    Para minimizarlo, nuestras clases siguen una progresión pedagógica/Metodologica clara: cada movimiento o patrón se enseña progresivamente, asi el/la cuerpo/a 
-                    se prepara para poder ejecutarlo. Es fundamental que durante las explicaciones técnicas y de seguridad estemos 
-                    <strong>concentrados y en silencio</strong>. Podemos reír, bromear y pasarla increíble, pero cuando se trata 
-                    de aprender, la atención es clave. Confiamos en que cada estudiante respeta su proceso y el de les demás, 
-                    así construimos un espacio seguro y divertido. El riesgo cero no existe, pero el compromiso colectivo lo reduce.
-                </p>
-            </div>
-        </div>
-
-        <div class="card" style="margin-top: 1.5rem; border-color: var(--neon-pink);">
-            <h3 style="color: var(--neon-pink); margin-bottom: 0.75rem; font-size: 1.3rem;">🎒 Infraestructura Disponible</h3>
-            <p style="color: var(--text-gray); font-size: 0.9rem; line-height: 1.7;">
-                Contamos con tatamis, colchonetas de diversas medidas, airtracks, liras con mosquetones giratorios, 
-                eslingas, tela aérea, anillas de gimnasia, bloques de mat, equipo de sonido, 
-                <strong>cancha y estructura para aparatos aéreos, aerial straps</strong>.
-            </p>
-            <p style="color: var(--text-gray); font-size: 0.85rem; margin-top: 0.75rem; font-style: italic;">
-                Nota: El espacio compartido entre ambos talleres (división del área) aplica solo para la Escuela de los sábados. 
-                Los demás talleres y servicios se realizan en sus espacios propios (Plaza San Lucas, San Bernardo, etc.)
-            </p>
-        </div>
-    </section>
-
-    <section id="precios">
-        <h2>💰 Aranceles 2026</h2>
-        <p style="text-align: center; color: var(--text-gray); margin-bottom: 1.5rem; font-size: 0.9rem; padding: 0 1rem;">Forma de pago: Antes de comenzar el mes/semestre, o durante la primera clase. Para clase a clase: previo a iniciar o antes de finalizar. <strong style="color: var(--neon-pink);">No se aceptan pagos pendientes.</strong></p>
-        
-        <div class="pricing-cards">
-            <div class="pricing-card featured" style="position: relative;">
-                <div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--neon-pink); color: var(--dark-bg); padding: 0.25rem 0.75rem; font-size: 0.75rem; font-weight: 700; border-radius: 20px;">RECOMENDADO</div>
-                <div class="pricing-name">Semestral (Escuela de Circo Urbano)</div>
-                <div class="price price-cash">$50.000</div>
-                <div class="price-transfer">$60.000 transferencia</div>
-                <div class="price-note">Mejor valor para compromiso de medio año</div>
-            </div>
-
-            <div class="pricing-card">
-                <div class="pricing-name">Mensual (Escuela de Circo Urbano)</div>
-                <div class="price price-cash">$12.000</div>
-                <div class="price-transfer">$15.000 transferencia</div>
-                <div class="price-note">Flexibilidad mes a mes</div>
-            </div>
-
-            <div class="pricing-card">
-                <div class="pricing-name">Clase Suelta</div>
-                <div class="price price-cash">$4.000</div>
-                <div class="price-transfer">$6.000 transferencia</div>
-                <div class="price-note">Aplica a todas las clases grupales sueltas (Lira, acrobacias, calistenia, dancehall)</div>
-            </div>
-        </div>
-
-        <div style="background: rgba(0, 245, 255, 0.1); border: 1px solid var(--neon-blue); border-radius: 8px; padding: 1rem; margin-top: 1.5rem; text-align: center; color: var(--neon-blue); font-weight: 600; font-size: 0.95rem;">
-            🎉 <strong>Promoción especial:</strong> Tu primer pago mensual por transferencia tiene el valor de efectivo ($12.000) ¡Aprovecha!
-        </div>
-    </section>
-
-    <section id="materiales">
-        <h2>📚 Materiales de apoyo</h2>
-        <div class="materiales-protegido">
-            <h3 style="color: var(--neon-purple); margin-bottom: 0.5rem; font-size: 1.3rem;">Acceso exclusivo para estudiantes</h3>
-            <p style="font-size: 0.9rem; margin-bottom: 1rem;">Ingresa tu correo y la contraseña para acceder a los recursos didácticos.</p>
-            
-            <form class="materiales-form" id="materialesForm" onsubmit="return false;">
-                <input type="email" id="emailInput" placeholder="Tu correo electrónico" required autocomplete="email">
-                <input type="password" id="passwordInput" placeholder="Contraseña" required autocomplete="current-password">
-                <button type="button" id="submitMateriales">Ingresar</button>
-            </form>
-            <div id="errorMessage" style="color: var(--neon-pink); font-size: 0.85rem; margin-top: 0.5rem;"></div>
-        </div>
-    </section>
-
-    <section id="contacto">
-        <h2>📲 Contacto</h2>
-        
-        <div class="contact-warning">
-            <strong style="color: var(--neon-pink); display: block; margin-bottom: 0.5rem; font-size: 1.1rem;">⚠️ Importante: Concretemos</strong>
-            <p style="font-size: 0.9rem;">Si nos contactas, es para concretar tu participación. Valoramos tu interés y el tiempo de todes. Muchas personas nos escriben pero luego no confirman asistencia ni reservan cupo. Si te interesa, comprometámonos. ¡Te esperamos!</p>
-        </div>
-
-        <div class="contact-grid">
-            <div class="contact-card">
-                <div class="contact-type">Instagram</div>
-                <div class="contact-info">@dilo.con_movimiento</div>
-                <div class="contact-detail" style="color: var(--text-gray); font-size: 0.85rem;">Consultas y reservas vía DM</div>
-            </div>
-
-            <div class="contact-card">
-                <div class="contact-type">Karina (Lira)</div>
-                <div class="contact-info">+56 9 8705 3650</div>
-                <div class="contact-detail" style="color: var(--text-gray); font-size: 0.85rem;">WhatsApp directo</div>
-            </div>
-
-            <div class="contact-card">
-                <div class="contact-type">Daniel (Breaking)</div>
-                <div class="contact-info">+56 9 3554 1341</div>
-                <div class="contact-detail" style="color: var(--text-gray); font-size: 0.85rem;">WhatsApp directo</div>
-            </div>
-        </div>
-
-        <div class="email-section">
-            <strong style="color: var(--neon-purple); display: block; margin-bottom: 0.5rem; font-size: 1.1rem;">📧 Correo electrónico</strong>
-            <p style="font-size: 1.1rem; color: var(--text-light); margin: 0.5rem 0;">diloconmovimiento@gmail.com</p>
-            <p style="color: var(--text-gray); font-size: 0.85rem;">Para clases fuera de Santiago, presentaciones, muestras y talleres en otros espacios</p>
-        </div>
-    </section>
-
-    <footer>
-        <h2 style="margin-bottom: 1.5rem; font-size: clamp(1.5rem, 5vw, 2rem);">Únete al Movimiento</h2>
-        
-        <div class="social-links">
-            <a href="https://instagram.com/dilo.con_movimiento" target="_blank" rel="noopener noreferrer">
-                <span class="instagram-icon"></span>
-                @dilo.con_movimiento
-            </a>
-            <a href="mailto:diloconmovimiento@gmail.com">
-                ✉️ diloconmovimiento@gmail.com
-            </a>
-            <a href="#materiales">
-                📋 Materiales (acceso restringido)
-            </a>
-        </div>
-
-        <p class="footer-text">
-            Hecho con <span class="heartbeat">❤️</span> y movimiento<br>
-            Escuela de Circo Urbano Dilo con Movimiento © 2026
-        </p>
-    </footer>
-
-    <script>
-        // Menú hamburguesa
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-
-        menuToggle.addEventListener('click', () => {
-            menuToggle.classList.toggle('active');
-            navLinks.classList.toggle('active');
-        });
-
-        // Cerrar menú al hacer clic en un enlace
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                menuToggle.classList.remove('active');
-                navLinks.classList.remove('active');
-            });
-        });
-
-        // Smooth scroll para anclas
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    const headerOffset = 60;
-                    const elementPosition = target.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Animación al scroll (Intersection Observer)
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
-
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = "1";
-                    entry.target.style.transform = "translateY(0)";
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.card, .month-card, .workshop-card, .rule-item, .pricing-card, .team-card, .service-card, .contact-card').forEach(el => {
-            el.style.opacity = "0";
-            el.style.transform = "translateY(20px)";
-            el.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-            observer.observe(el);
-        });
-
-        // Carrusel optimizado para touch
-        const carouselContainer = document.getElementById('carouselContainer');
-        const slides = document.querySelectorAll('.carousel-slide');
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const dotsContainer = document.getElementById('carouselDots');
-        let currentIndex = 0;
-        const totalSlides = slides.length;
-        let autoSlideInterval;
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        // Crear dots
-        for (let i = 0; i < totalSlides; i++) {
-            const dot = document.createElement('button');
-            dot.classList.add('carousel-dot');
-            dot.setAttribute('aria-label', `Ir a slide ${i + 1}`);
-            dot.addEventListener('click', () => goToSlide(i));
-            dotsContainer.appendChild(dot);
-        }
-        const dots = document.querySelectorAll('.carousel-dot');
-
-        function updateCarousel() {
-            carouselContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentIndex);
-            });
-        }
-
-        function goToSlide(index) {
-            currentIndex = index;
-            updateCarousel();
-        }
-
-        function nextSlide() {
-            currentIndex = (currentIndex + 1) % totalSlides;
-            updateCarousel();
-        }
-
-        function prevSlide() {
-            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-            updateCarousel();
-        }
-
-        prevBtn.addEventListener('click', () => {
-            prevSlide();
-            resetAutoSlide();
-        });
-        
-        nextBtn.addEventListener('click', () => {
-            nextSlide();
-            resetAutoSlide();
-        });
-
-        // Soporte para gestos táctiles
-        carouselContainer.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, {passive: true});
-
-        carouselContainer.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, {passive: true});
-
-        function handleSwipe() {
-            const swipeThreshold = 50;
-            const diff = touchStartX - touchEndX;
-            
-            if (Math.abs(diff) > swipeThreshold) {
-                if (diff > 0) {
-                    nextSlide();
-                } else {
-                    prevSlide();
-                }
-                resetAutoSlide();
-            }
-        }
-
-        function startAutoSlide() {
-            autoSlideInterval = setInterval(nextSlide, 5000);
-        }
-
-        function resetAutoSlide() {
-            clearInterval(autoSlideInterval);
-            startAutoSlide();
-        }
-
-        startAutoSlide();
-        updateCarousel();
-
-        // Pausar en hover (solo en desktop)
-        const isTouchDevice = window.matchMedia("(pointer: coarse)").matches;
-        if (!isTouchDevice) {
-            carouselContainer.addEventListener('mouseenter', () => clearInterval(autoSlideInterval));
-            carouselContainer.addEventListener('mouseleave', startAutoSlide);
-        }
-
-        // Materiales protegidos
-        const validPassword = "DILOCONMOVIMIENTO2026";
-        const submitBtn = document.getElementById('submitMateriales');
-        const emailInput = document.getElementById('emailInput');
-        const passwordInput = document.getElementById('passwordInput');
-        const errorDiv = document.getElementById('errorMessage');
-
-        submitBtn.addEventListener('click', function() {
-            const email = emailInput.value.trim();
-            const password = passwordInput.value.trim();
-
-            if (!email || !password) {
-                errorDiv.textContent = 'Por favor completa ambos campos.';
-                return;
-            }
-
-            if (password !== validPassword) {
-                errorDiv.textContent = 'Contraseña incorrecta. Si eres estudiante, solicita la clave a les profes.';
-                return;
-            }
-
-            window.location.href = "https://www.canva.com/design/DAHBtMeIFgA/rv_yoP6U7ShiKXSxe57hhw/edit";
-        });
-
-        // Permitir submit con Enter
-        passwordInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                submitBtn.click();
-            }
-        });
-    </script>
 </body>
-    </html>
+</html>
